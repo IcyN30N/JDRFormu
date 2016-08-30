@@ -30,17 +30,29 @@
                 $selectVal = $_POST['genType'];
                 echo("<h3 class='col-lg-12'>". "DEBUG ". $selectVal . "<h3>");
 
-                function afficheForm2($selectVal) {
                   switch ($selectVal){
                       case 'personnage':
                           echo("
-                              <form name='genPerso'>
+                              <form name='genPerso' class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                                   <label class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>formulaire de génération de personnage</label>
                                   <select name='persoGenre' class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
                                       <option value='garçon' selected>je suis un garçon</option>
                                       <option value='fille'>je suis une fille</option>
                                       <option value='genderfluid'>je suis genderfluid</option>
                                       <option value='neutre'>je suis de genre neutre</option>
+                                  </select>
+                                  <select name='persoClasse' class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
+                                      <option value='guerrier-re' selected>guerrier-re</option>
+                                      <option value='magicien-ne'>magicien-ne</option>
+                                      <option value='voleur-se'>voleur-se</option>
+                                      <option value='archer-re'>archer-re</option>
+                                  </select>
+                                  <label class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>attirance élémentaire</label>
+                                  <select name='persoElement' class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
+                                    <option value='terre' selected>terre</option>
+                                      <option value='air'>air</option>
+                                      <option value='feu'>feu</option>
+                                      <option value='eau'>archer-re</option>
                                   </select>
                               </form>
                               ");
@@ -73,9 +85,6 @@
                           break;
                   }
                 }
-
-                afficheForm2($selectVal);
-            }
         ?>
     </section>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
