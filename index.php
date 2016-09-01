@@ -24,8 +24,63 @@
             </select>
             <button type="submit">Valider</button>
         </form>
+		<form>
+			<
+		</form>
 
         <?php
+
+            $tabNomFirstPart = ["To","Num","Ork","An", "Ny"];
+            $tabNomSecondPart = ["zor","gwen","hiel","ju","tia"];
+
+            $tabItemInBag = [" une Potion","un Sandwich", " une Loupe","un Ordinateur","un Appareil Photo"," un Téléphone"];
+
+            // prend 2 tableaux, génère 2 nombres aléatoires et assemblent les 2 éléments sélectionnés.
+            function randAssemble($arrElem1, $arrElem2) {
+              $arrElem1Length = count($arrElem1) - 1;
+              $arrElem2Length = count($arrElem2) - 1;
+              $randomChoicePart1 = rand(0,$arrElem1Length);
+              $randomChoicePart2 = rand(0,$arrElem2Length);
+              $randChosenFusion = $arrElem1[$randomChoicePart1].$arrElem2[$randomChoicePart2];
+              return $randChosenFusion;
+            }
+
+            // génère un âge aléatoire
+            function randomAge() {
+                $ageRandom = rand(1,85);
+                return $ageRandom;
+            }
+
+
+            // sélectionne de manière pseudo aléatoire des éléments dans un tableau
+            function randomSelect($arrToTreat) {
+              $arrToTreatLength = count($arrToTreat) -1;
+              $randomXToGenerate = rand(1,3);
+              //$arrTreated = [];
+              $S ="J'ai ";
+              for($i = 0; $i < $randomXToGenerate; $i++) {
+                //$xRandom = rand(1,$arrToTreatLength);
+                $newItem = $arrToTreat[rand(1,$arrToTreatLength)];
+                $S= $S . $newItem;
+                //array_push($arrTreated, $newItem);
+              }
+              //return $arrTreated;
+              return $S;
+            }
+
+            // présente ce qu'il y a dans un array, non utilisée finalement
+            /*function whatIsInMyArray($arrToInspect, $xInBag) {
+              $howBig = count($arrToInspect) - 1;
+              $jeParle = "J'ai les " . $xInBag . " que voici : ";
+              for($i = 0; $i < $howBig; $i ++) {
+                $jeParle+= $arrToInspect[$i];
+              }
+              return $jeParle;
+            }
+*/
+
+
+
             if(isset($_POST['genType'])) {
                 $selectVal = $_POST['genType'];
                 echo("<h3 class='col-lg-12'>". "DEBUG ". $selectVal . "<h3>");
@@ -33,28 +88,31 @@
                   switch ($selectVal){
                       case 'personnage':
                           echo("
-                              <form name='genPerso' class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-                                  <label class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>formulaire de génération de personnage</label>
+                              <form name='genPerso' class='col-lg-12 col-md-12 col-sm-12 col-xs-12' action='index.php' method='post'>
+                                  <label class='col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center'>formulaire de génération de personnage</label>
+								  <label class='col-lg-4 col-md-4 col-sm-12 col-xs-12'>Genre</label>
                                   <select name='persoGenre' class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
                                       <option value='garçon' selected>je suis un garçon</option>
                                       <option value='fille'>je suis une fille</option>
                                       <option value='genderfluid'>je suis genderfluid</option>
                                       <option value='neutre'>je suis de genre neutre</option>
                                   </select>
+								  <label class='col-lg-4 col-md-4 col-sm-12 col-xs-12'>Classe du perso</label>
                                   <select name='persoClasse' class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
                                       <option value='guerrier-re' selected>guerrier-re</option>
                                       <option value='magicien-ne'>magicien-ne</option>
                                       <option value='voleur-se'>voleur-se</option>
                                       <option value='archer-re'>archer-re</option>
                                   </select>
-                                  <label class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>attirance élémentaire</label>
+                                  <label class='col-lg-4 col-md-4 col-sm-12 col-xs-12'>attirance élémentaire</label>
                                   <select name='persoElement' class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
                                     <option value='terre' selected>terre</option>
                                       <option value='air'>air</option>
                                       <option value='feu'>feu</option>
                                       <option value='eau'>archer-re</option>
                                   </select>
-                              </form>
+                              	<button type='submit' name='genPerso' >Valider</button>
+							  </form>
                               ");
                           break;
                       case 'ville':
@@ -66,6 +124,7 @@
                                       <option value='ville'>une ville</option>
                                       <option value='situation'>une situation</option>
                                   </select>
+                                  <button type='submit' name='genVille'>Valider</button>
                               </form>
                               ");
                           break;
@@ -78,13 +137,26 @@
                                       <option value='ville'>une ville</option>
                                       <option value='situation'>une situation</option>
                                   </select>
+                                  <button type='submit' name='genSituation' >Valider</button>
                               </form>
                               ");
                           break;
                       default:
                           break;
                   }
+
+
                 }
+
+                if(isset($_POST['genPerso'])) {
+                      echo "<h3 class='col-lg-12'>Hey Hey, je me suis infiltré-e  !!";
+                             echo "<h1 class='col-lg-12'> HEYO !  Mon nom est : " . randAssemble($tabNomFirstPart, $tabNomSecondPart) . "</h1>";
+                             echo "<p class='col-lg-12'> J'ai : " . randomAge() . " ans </p>";
+                             echo "<p class='col-lg-12'> J'ai : " . randomSelect($tabItemInBag) . " dans ma besace </p>";
+
+                          } else {
+                              echo "<h3 class='col-lg-12'>Hey ho, je ne suis pas encore rentré-e dans genPerso !!";
+                          }
         ?>
     </section>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
