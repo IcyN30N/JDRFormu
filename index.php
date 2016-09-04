@@ -33,7 +33,7 @@
             $tabNomFirstPart = ["To","Num","Ork","An", "Ny"];
             $tabNomSecondPart = ["zor","gwen","hiel","ju","tia"];
 
-            $tabItemInBag = [" une Potion","un Sandwich", " une Loupe","un Ordinateur","un Appareil Photo"," un Téléphone"];
+            $tabItemInBag = [" une Potion"," un Sandwich", " une Loupe"," un Ordinateur"," un Appareil Photo"," un Téléphone"];
 
             // prend 2 tableaux, génère 2 nombres aléatoires et assemblent les 2 éléments sélectionnés.
             function randAssemble($arrElem1, $arrElem2) {
@@ -61,7 +61,7 @@
               for($i = 0; $i < $randomXToGenerate; $i++) {
                 //$xRandom = rand(1,$arrToTreatLength);
                 $newItem = $arrToTreat[rand(1,$arrToTreatLength)];
-                $S= $S . $newItem;
+                $S= $S . $newItem . ",";
                 //array_push($arrTreated, $newItem);
               }
               //return $arrTreated;
@@ -117,20 +117,39 @@
                           break;
                       case 'ville':
                           echo("
-                              <form name='genVille'>
-                                  <label class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>formulaire de génération de ville</label>
-                                  <select name='genType' class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
-                                      <option value='personnage' selected>un personnage</option>
-                                      <option value='ville'>une ville</option>
-                                      <option value='situation'>une situation</option>
-                                  </select>
+                              <form name='genVille'method='post'>
+                                <label class='col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center'>formulaire de génération de ville</label>
+                                <label class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>Taille</label>
+                                <select name='villeTaille' class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
+                                    <option value='ville' selected>ville</option>
+                                    <option value='village'>village</option>
+                                    <option value='cité'>cité</option>
+                                </select>
+                                <label class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>Environnement</label>
+                                <select name='villeEnv' class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
+                                    <option value='urbaine' selected>urbaine</option>
+                                    <option value='montagnarde'>montagnarde</option>
+                                    <option value='portuaire'>portuaire</option>
+                                    <option value='aérienne'>aérienne</option>
+                                    <option value='sous-marine'>sous-marine</option>
+                                    <option value='forestière'>forestière</option>
+                                    <option value='campagnarde'>campagnarde</option>
+                                </select>
+                                <label class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>Atout</label>
+                                <select name='villeAtout' class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
+                                    <option value='aucun' selected>aucun</option>
+                                    <option value='commercial'>commercial</option>
+                                    <option value='touristique'>touristique</option>
+                                    <option value='culturel'>culturel</option>
+                                    <option value='militaire'>militaire</option>
+                                </select>
                                   <button type='submit' name='genVille'>Valider</button>
                               </form>
                               ");
                           break;
                       case 'situation':
                           echo("
-                              <form name='genSituation'>
+                              <form name='genSituation' method='post'>
                                   <label class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>formulaire de génération de situation</label>
                                   <select name='genType' class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
                                       <option value='personnage' selected>un personnage</option>
@@ -152,9 +171,14 @@
                       echo "<h3 class='col-lg-12'>Hey Hey, je me suis infiltré-e  !!";
                              echo "<h1 class='col-lg-12'> HEYO !  Mon nom est : " . randAssemble($tabNomFirstPart, $tabNomSecondPart) . "</h1>";
                              echo "<p class='col-lg-12'> J'ai : " . randomAge() . " ans </p>";
-                             echo "<p class='col-lg-12'> J'ai : " . randomSelect($tabItemInBag) . " dans ma besace </p>";
+                             echo "<p class='col-lg-12'>  " . randomSelect($tabItemInBag) . " dans ma besace. </p>";
 
-                          } else {
+                          } elseif (isset($_POST['genVille'])) {
+                              echo "<h3 class='col-lg-12'>Hey Hey, je me suis infiltré-e (genVille) !!";
+                               echo "<p class='col-lg-12'> Tu as généré : " . $_POST['villeTaille'] . " " . $_POST['villeEnv'] . " . Son attrait est " . $_POST['villeAtout'] . ". </p>";
+                          }  elseif (isset($_POST['genSituation'])) {
+                              echo "<h3 class='col-lg-12'>Hey Hey, je me suis infiltré-e (genSituation) !!";
+                          }  else {
                               echo "<h3 class='col-lg-12'>Hey ho, je ne suis pas encore rentré-e dans genPerso !!";
                           }
         ?>
