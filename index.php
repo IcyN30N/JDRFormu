@@ -20,7 +20,7 @@
             <select name="genType" class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                 <option value="personnage" selected>un personnage</option>
                 <option value="ville">une ville</option>
-                <option value="situation">une situation</option>
+                <option value="évènement">un évènement</option>
             </select>
             <button type="submit">Valider</button>
         </form>
@@ -147,16 +147,17 @@
                               </form>
                               ");
                           break;
-                      case 'situation':
+                      case 'évènement':
                           echo("
-                              <form name='genSituation' method='post'>
-                                  <label class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>formulaire de génération de situation</label>
-                                  <select name='genType' class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
-                                      <option value='personnage' selected>un personnage</option>
-                                      <option value='ville'>une ville</option>
-                                      <option value='situation'>une situation</option>
+                              <form name='genEvent' method='post'>
+                                  <label class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>formulaire de génération d'évènement</label>
+                                  <label class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>Type d'évènement</label>
+                                  <select name='eventType' class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
+                                      <option value='vie' selected>vie</option>
+                                      <option value='voyage'>voyage</option>
+                                      <option value='action'>action</option>
                                   </select>
-                                  <button type='submit' name='genSituation' >Valider</button>
+                                  <button type='submit' name='genEvent' >Valider</button>
                               </form>
                               ");
                           break;
@@ -176,8 +177,9 @@
                           } elseif (isset($_POST['genVille'])) {
                               echo "<h3 class='col-lg-12'>Hey Hey, je me suis infiltré-e (genVille) !!";
                                echo "<p class='col-lg-12'> Tu as généré : " . $_POST['villeTaille'] . " " . $_POST['villeEnv'] . " . Son attrait est " . $_POST['villeAtout'] . ". </p>";
-                          }  elseif (isset($_POST['genSituation'])) {
-                              echo "<h3 class='col-lg-12'>Hey Hey, je me suis infiltré-e (genSituation) !!";
+                          }  elseif (isset($_POST['genEvent'])) {
+                              echo "<h3 class='col-lg-12'>Hey Hey, je me suis infiltré-e (genEvent) !!";
+                              echo "<p class='col-lg-12'> J'ai choisi: " . $_POST['eventType'] . ". </p>";
                           }  else {
                               echo "<h3 class='col-lg-12'>Hey ho, je ne suis pas encore rentré-e dans genPerso !!";
                           }
