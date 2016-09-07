@@ -35,6 +35,13 @@
 
             $tabItemInBag = [" une Potion"," un Sandwich", " une Loupe"," un Ordinateur"," un Appareil Photo"," un Téléphone"];
 
+            $tabLifeEvent = ["","","","","",""];
+            $tabLifeEvent2 = ["","","","","",""];
+            $tabActionEvent = ["Soudain, un sorcier apparait et ","Une voleuse bondit en dehors d'un fourré et ","Avec rage, une guerrière à l'allure impressionnante ", "Un-e mort-e vivant-e "];
+            $tabActionEvent2 = ["vous regarde furieusement.","jette une boule de feu.","saute sur le groupe.","sort une dague de sous sa cape.","semble psalmodier dans une langue inconnue.","hurle à tue tête que la fin du monde approche."];
+            $tabTravelEvent = ["","",""];
+            $tabTravelEvent2 = ["","",""];
+
             // prend 2 tableaux, génère 2 nombres aléatoires et assemblent les 2 éléments sélectionnés.
             function randAssemble($arrElem1, $arrElem2) {
               $arrElem1Length = count($arrElem1) - 1;
@@ -180,8 +187,22 @@
                           }  elseif (isset($_POST['genEvent'])) {
                               echo "<h3 class='col-lg-12'>Hey Hey, je me suis infiltré-e (genEvent) !!";
                               echo "<p class='col-lg-12'> J'ai choisi: " . $_POST['eventType'] . ". </p>";
-                          }  else {
-                              echo "<h3 class='col-lg-12'>Hey ho, je ne suis pas encore rentré-e dans genPerso !!";
+                              switch ($_POST['eventType']) {
+                                case 'vie':
+                                  # code...
+                                  break;
+
+                                case 'voyage':
+                                  # code...
+                                break;
+
+                                case 'action':
+                                  echo "<h1 class='col-lg-12'> Action obtenue :" . randAssemble($tabActionEvent, $tabActionEvent2) . "</h1>";
+                                break;
+
+                                default:
+                                  break;
+                              }
                           }
         ?>
     </section>
