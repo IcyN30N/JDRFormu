@@ -35,8 +35,8 @@
 
             $tabItemInBag = [" une Potion"," un Sandwich", " une Loupe"," un Ordinateur"," un Appareil Photo"," un Téléphone"];
 
-            $tabLifeEvent = ["","","","","",""];
-            $tabLifeEvent2 = ["","","","","",""];
+            $tabLifeEvent = ["La mine ","Le village voisin ","Tout le centre ville ","Le palais ","La cache secrète ","Un temple perdu dans les montagnes "];
+            $tabLifeEvent2 = ["a pris feu","a subi les ravages d'une innondation","a vu sa rénovation terminée","a mystérieusement disparu","a vu tous ses occupants se changer en pierre","a été le théâtre d'un évènement fâcheux : un enlèvement."];
             $tabActionEvent = ["Soudain, un sorcier apparait et ","Une voleuse bondit en dehors d'un fourré et ","Avec rage, une guerrière à l'allure impressionnante ", "Un-e mort-e vivant-e "];
             $tabActionEvent2 = ["vous regarde furieusement.","jette une boule de feu.","saute sur le groupe.","sort une dague de sous sa cape.","semble psalmodier dans une langue inconnue.","hurle à tue tête que la fin du monde approche."];
             $tabTravelEvent = ["","",""];
@@ -189,7 +189,7 @@
                               echo "<p class='col-lg-12'> J'ai choisi: " . $_POST['eventType'] . ". </p>";
                               switch ($_POST['eventType']) {
                                 case 'vie':
-                                  # code...
+                                  echo "<h1 class='col-lg-12'> Action obtenue :" . randAssemble($tabLifeEvent, $tabLifeEvent2) . "</h1>";
                                   break;
 
                                 case 'voyage':
