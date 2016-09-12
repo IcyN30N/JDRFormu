@@ -112,10 +112,10 @@
                                   </select>
                                   <label class='col-lg-4 col-md-4 col-sm-12 col-xs-12'>attirance élémentaire</label>
                                   <select name='persoElement' class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
-                                    <option value='terre' selected>terre</option>
-                                      <option value='air'>air</option>
-                                      <option value='feu'>feu</option>
-                                      <option value='eau'>archer-re</option>
+                                    <option value='la terre' selected>terre</option>
+                                      <option value='l'air'>air</option>
+                                      <option value='le feu'>feu</option>
+                                      <option value='l'eau'>archer-re</option>
                                   </select>
                               	<button type='submit' name='genPerso' >Valider</button>
 							  </form>
@@ -177,7 +177,8 @@
                 if(isset($_POST['genPerso'])) {
                       //echo "<h3 class='col-lg-12'>Hey Hey, je me suis infiltré-e  !!";
                              echo "<h1 class='col-lg-12'> HEYO !  Mon nom est : " . randAssemble($tabNomFirstPart, $tabNomSecondPart) . "</h1>";
-                             echo "<p class='col-lg-12'> J'ai : " . randomAge() . " ans </p>";
+                             echo "<p class='col-lg-12'> Je suis une personne " . $_POST['persoGenre'] . ", " . $_POST['persoClasse'] . " de profession.</p>";
+                             echo "<p class='col-lg-12'> J'ai : " . randomAge() . " ans et " . $_POST['persoElement'] . " m'attire beaucoup. </p>";
                              echo "<p class='col-lg-12'>  " . randomSelect($tabItemInBag) . " dans ma besace. </p>";
 
                           } elseif (isset($_POST['genVille'])) {
