@@ -10,6 +10,7 @@
 </head>
 
 <body>
+  <div class="container-fluid">
     <section class="row">
         <h1 class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">JDR FORMS</h1>
     </section>
@@ -24,9 +25,6 @@
             </select>
             <button type="submit">Valider</button>
         </form>
-		<form>
-			<
-		</form>
 
         <?php
 
@@ -39,8 +37,8 @@
             $tabLifeEvent2 = ["a pris feu","a subi les ravages d'une innondation","a vu sa rénovation terminée","a mystérieusement disparu","a vu tous ses occupants se changer en pierre","a été le théâtre d'un évènement fâcheux : un enlèvement."];
             $tabActionEvent = ["Soudain, un sorcier apparait et ","Une voleuse bondit en dehors d'un fourré et ","Avec rage, une guerrière à l'allure impressionnante ", "Un-e mort-e vivant-e "];
             $tabActionEvent2 = ["vous regarde furieusement.","jette une boule de feu.","saute sur le groupe.","sort une dague de sous sa cape.","semble psalmodier dans une langue inconnue.","hurle à tue tête que la fin du monde approche."];
-            $tabTravelEvent = ["","",""];
-            $tabTravelEvent2 = ["","",""];
+            $tabTravelEvent = ["Des arbres bloquent ","Plusieurs bouts de métals acérés jonchent ","Une coulée de lave a détruit "];
+            $tabTravelEvent2 = ["le chemin de terre.","l'imposant pont de pierre qui mènent à la capitale.","la totalité des fortifications."];
 
             // prend 2 tableaux, génère 2 nombres aléatoires et assemblent les 2 éléments sélectionnés.
             function randAssemble($arrElem1, $arrElem2) {
@@ -90,7 +88,8 @@
 
             if(isset($_POST['genType'])) {
                 $selectVal = $_POST['genType'];
-                echo("<h3 class='col-lg-12'>". "DEBUG ". $selectVal . "<h3>");
+                 //echo("<h3 class='col-lg-12'>". "DEBUG ". $selectVal . "<h3>");
+                 echo("<h3 class='col-lg-12'> Continuons voulez vous ? <h3>");
 
                   switch ($selectVal){
                       case 'personnage':
@@ -157,7 +156,7 @@
                       case 'évènement':
                           echo("
                               <form name='genEvent' method='post'>
-                                  <label class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>formulaire de génération d'évènement</label>
+                                  <label class='col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center'>formulaire de génération d'évènement</label>
                                   <label class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>Type d'évènement</label>
                                   <select name='eventType' class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
                                       <option value='vie' selected>vie</option>
@@ -176,24 +175,24 @@
                 }
 
                 if(isset($_POST['genPerso'])) {
-                      echo "<h3 class='col-lg-12'>Hey Hey, je me suis infiltré-e  !!";
+                      //echo "<h3 class='col-lg-12'>Hey Hey, je me suis infiltré-e  !!";
                              echo "<h1 class='col-lg-12'> HEYO !  Mon nom est : " . randAssemble($tabNomFirstPart, $tabNomSecondPart) . "</h1>";
                              echo "<p class='col-lg-12'> J'ai : " . randomAge() . " ans </p>";
                              echo "<p class='col-lg-12'>  " . randomSelect($tabItemInBag) . " dans ma besace. </p>";
 
                           } elseif (isset($_POST['genVille'])) {
-                              echo "<h3 class='col-lg-12'>Hey Hey, je me suis infiltré-e (genVille) !!";
+                            //  echo "<h3 class='col-lg-12'>Hey Hey, je me suis infiltré-e (genVille) !!";
                                echo "<p class='col-lg-12'> Tu as généré : " . $_POST['villeTaille'] . " " . $_POST['villeEnv'] . " . Son attrait est " . $_POST['villeAtout'] . ". </p>";
                           }  elseif (isset($_POST['genEvent'])) {
-                              echo "<h3 class='col-lg-12'>Hey Hey, je me suis infiltré-e (genEvent) !!";
-                              echo "<p class='col-lg-12'> J'ai choisi: " . $_POST['eventType'] . ". </p>";
+                          /*    echo "<h3 class='col-lg-12'>Hey Hey, je me suis infiltré-e (genEvent) !!";
+                                echo "<p class='col-lg-12'> J'ai choisi: " . $_POST['eventType'] . ". </p>"; */
                               switch ($_POST['eventType']) {
                                 case 'vie':
                                   echo "<h1 class='col-lg-12'> Action obtenue :" . randAssemble($tabLifeEvent, $tabLifeEvent2) . "</h1>";
                                   break;
 
                                 case 'voyage':
-                                  # code...
+                                  echo "<h1 class='col-lg-12'> Action obtenue :" . randAssemble($tabTravelEvent, $tabTravelEvent2) . "</h1>";
                                 break;
 
                                 case 'action':
