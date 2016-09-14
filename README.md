@@ -1,5 +1,3 @@
-JDRFormu 0.5
+JDRFormu 0.5.1
 
-Enfin, une version qui fonctionne à peu près correctement.
-
-Le visuel viendra prochainement bien entendu.
+travail sur le formulaire et la connexion en cours.
