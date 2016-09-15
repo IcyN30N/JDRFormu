@@ -1,3 +1,7 @@
+<?php
+  session_start();
+ ?>
+
 <!doctype html>
 <html>
 <head>
@@ -13,6 +17,11 @@
 <body>
   <div class="container-fluid">
     <section class="row">
+      <?php
+        if(isset($_SESSION['login'])) {
+          echo '<p class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-right"> ' . $_SESSION['login'] . ' est connecté(e)</p>';
+        }
+       ?>
       <a class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right" href="login.php">vers la page de co</a>
         <h1 class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">JDR FORMS</h1>
     </section>
