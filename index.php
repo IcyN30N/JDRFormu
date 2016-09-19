@@ -1,3 +1,7 @@
+<?php
+  session_start();
+ ?>
+
 <!doctype html>
 <html>
 <head>
@@ -5,6 +9,7 @@
     <meta content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta lang="fr">
+    <title>Generat0r</title>
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="CSS/style.css">
 </head>
@@ -12,6 +17,12 @@
 <body>
   <div class="container-fluid">
     <section class="row">
+      <?php
+        if(isset($_SESSION['login'])) {
+          echo '<p class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-right"> ' . $_SESSION['login'] . ' est connecté(e)</p>';
+        }
+       ?>
+      <a class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right" href="login.php">vers la page de co</a>
         <h1 class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">JDR FORMS</h1>
     </section>
     <section class="row">
