@@ -21,8 +21,8 @@
             if(isset($_POST['loginForm'])) {
 
                 // 2 variables qui récupèrent ce qui a été saisi
-                $userLogin = $_POST['login'];
-                $userPass = $_POST['pass'];
+                $userLogin = htmlspecialchars($_POST['login']);
+                $userPass = htmlspecialchars($_POST['pass']);
 
                 //2 variables qui contiennent la bonne valeur pour se connecter
                 $login = "kiwi";
