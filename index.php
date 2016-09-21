@@ -186,15 +186,64 @@
                 }
 
                 if(isset($_POST['genPerso'])) {
+
+                  $persoNom = randAssemble($tabNomFirstPart, $tabNomSecondPart);
+                               $persoGenre = $_POST['persoGenre'];
+                               $persoClasse = $_POST['persoClasse'];
+                               $persoAge = randomAge();
+                               $persoElement = $_POST['persoElement'];
+                               $persoObjets = randomSelect($tabItemInBag);
+
                       //echo "<h3 class='col-lg-12'>Hey Hey, je me suis infiltré-e  !!";
-                             echo "<h1 class='col-lg-12'> HEYO !  Mon nom est : " . randAssemble($tabNomFirstPart, $tabNomSecondPart) . "</h1>";
-                             echo "<p class='col-lg-12'> Je suis une personne " . $_POST['persoGenre'] . ", " . $_POST['persoClasse'] . " de profession.</p>";
-                             echo "<p class='col-lg-12'> J'ai : " . randomAge() . " ans et " . $_POST['persoElement'] . " m'attire beaucoup. </p>";
-                             echo "<p class='col-lg-12'>  " . randomSelect($tabItemInBag) . " dans ma besace. </p>";
+                             echo "<h1 class='col-lg-12'> HEYO !  Mon nom est : " . $persoNom . "</h1>";
+                             echo "<p class='col-lg-12'> Je suis une personne " . $persoGenre . ", " . $persoClasse . " de profession.</p>";
+                             echo "<p class='col-lg-12'> J'ai : " . $persoAge . " ans et " . $persoElement . " m'attire beaucoup. </p>";
+                             echo "<p class='col-lg-12'>  " . $persoObjets . " dans ma besace. </p>";
+
+
+                             // si quelqu'un est connecté(e) on donne le choix de sauvegarder ou non ce qui a été créé
+                             if(isset($_SESSION['login'])) {
+                               echo ("
+                                <form name='savePerso' method='post' action='index.php'>
+                                  <label>sauvegarder ce personnage ?</label>
+                                  <select name='choixSavePerso'>
+                                    <option value='oui'>Oui</option>
+                                    <option value='non'>Non</option>
+                                  </select>
+                                  <button type='submit' name='savePerso' >Valider</button>
+                                </form>"
+                              );
+
+                              $_SESSION['persoNom'] = $persoNom;
+                              $_SESSION['persoGenre'] = $persoGenre;
+                              $_SESSION['persoClasse'] = $persoClasse;
+                              $_SESSION['persoAge'] = $persoAge;
+                              $_SESSION['persoElement'] = $persoElement;
+                              $_SESSION['persoObjets'] = $persoObjets;
+
+                             }
+
+
+
+
+
 
                           } elseif (isset($_POST['genVille'])) {
                             //  echo "<h3 class='col-lg-12'>Hey Hey, je me suis infiltré-e (genVille) !!";
                                echo "<p class='col-lg-12'> Tu as généré : " . $_POST['villeTaille'] . " " . $_POST['villeEnv'] . " . Son attrait est " . $_POST['villeAtout'] . ". </p>";
+
+                               /*
+                               if(isset($_SESSION['login'])) {
+                                 echo ("
+                                  <form>
+                                    <label>sauvegarder cette ville ?</label>
+                                    <select name='saveVille'>
+                                      <option value='oui'>Oui</option>
+                                      <option value='non'>Non</option>
+                                    </select>
+                                    <button type='submit' name='saveVille' >Valider</button>
+                                  </form>"
+                                );*/
                           }  elseif (isset($_POST['genEvent'])) {
                           /*    echo "<h3 class='col-lg-12'>Hey Hey, je me suis infiltré-e (genEvent) !!";
                                 echo "<p class='col-lg-12'> J'ai choisi: " . $_POST['eventType'] . ". </p>"; */
@@ -215,6 +264,31 @@
                                   break;
                               }
                           }
+
+                          if(isset($_POST['savePerso'])) {
+                            $choixDeSavePerso = $_POST['choixSavePerso'];
+                            echo $choixDeSavePerso;
+                            if($choixDeSavePerso == 'oui') {
+                              // on se connecte à la base de données avec l'objet PDO
+                              $bdd = new PDO('mysql:host=localhost;dbname=jdrformu;charset=utf8', 'root', '');
+
+                              // on prépare la requête (création d'un compte utilisateur)
+                              $reqCreatePerso = $bdd->prepare('INSERT INTO personnages(nom, genre, classe, age, element, objets) VALUES(:nom, :genre, :classe, :age, :element, :objets)');
+                              // on passe un tableau contenant les infos submitted par l'user pour pouvoir exécuter la requête
+                              $reqCreatePerso->execute(array(
+                                'nom' => $_SESSION['persoNom'],
+                                'genre' => $_SESSION['persoGenre'],
+                                'classe' => $_SESSION['persoClasse'],
+                                'age' => $_SESSION['persoAge'],
+                                'element' => $_SESSION['persoElement'],
+                                'objets' =>$_SESSION['persoObjets']
+                              ));
+                              $reqCreatePerso->closeCursor();
+                            } elseif($choixDeSavePerso == 'non') {
+                              echo " <h1>nope nope, dommage !<h1> ";
+                            }
+                          }
+
         ?>
     </section>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>

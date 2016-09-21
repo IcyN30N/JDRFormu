@@ -63,6 +63,7 @@
 
           // on affiche un message pour signifier le succès de la création de compte à l'utilisateur/ice.
           echo"SUCCESS ! <br> Le compte utilisateur a bien été créé !";
+          $reqCreateAccount->closeCursor();
           // on vérifie que le login n'est pas identique au mot de passe
         } elseif ($newUserLogin == $newUserPwd) {
           echo "Votre mot de passe doit être différent de votre login !";
