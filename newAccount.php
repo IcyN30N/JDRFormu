@@ -45,6 +45,10 @@
         $newUserMail = htmlspecialchars($_POST['userMail']);
         $newUserLang = htmlspecialchars($_POST['preferredLangage']);
 
+        // sécurisation du password
+        $optionCost = ['cost'=>12,];
+        $newUserPwdHashed = password_hash($newUserPwd, PASSWORD_BCRYPT, $optionCost);
+
         // on demande à php de tenter la connexion à la bdd via PDO si les 2 mots de passe saisis sont identiques sinon...
         try {
         if($newUserPwd == $newUserPwdConfirm && $newUserLogin !== $newUserPwd) {
@@ -56,7 +60,7 @@
           // on passe un tableau contenant les infos submitted par l'user pour pouvoir exécuter la requête
           $reqCreateAccount->execute(array(
             'login' => $newUserLogin,
-            'password' => $newUserPwd,
+            'password' => $newUserPwdHashed,
             'email' => $newUserMail,
             'language' => $newUserLang
           ));
@@ -64,6 +68,13 @@
           // on affiche un message pour signifier le succès de la création de compte à l'utilisateur/ice.
           echo"SUCCESS ! <br> Le compte utilisateur a bien été créé !";
           $reqCreateAccount->closeCursor();
+
+          /* vérification que la fonction password_verify reconnait bien le hash. 
+          if(password_verify($newUserPwd, $newUserPwdHashed)) {
+            echo "Hey, gros boulot !";
+          } else {
+            echo "VCS prêts (à réparer) !";
+          } */
           // on vérifie que le login n'est pas identique au mot de passe
         } elseif ($newUserLogin == $newUserPwd) {
           echo "Votre mot de passe doit être différent de votre login !";
