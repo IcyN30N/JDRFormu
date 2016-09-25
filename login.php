@@ -1,5 +1,6 @@
 <?php
   session_start();
+  require_once('Database.class.php');
  ?>
 
 <!doctype html>
@@ -24,14 +25,15 @@
                 $userLogin = htmlspecialchars($_POST['login']);
                 $userPass = htmlspecialchars($_POST['pass']);
 
+                $Anju = new Database;
+                $Anju->loginCheck($userLogin);
+
+                $userPassRef = $_POST['refPass'];
                 //2 variables qui contiennent la bonne valeur pour se connecter
                 $login = "kiwi";
                 $pass = "fraise";
 
-                // 2 variables qui contiennent une valeur alt pour se connecter
-                $fLogin = "SuperUser";
-                $fPass = "p0wned";
-                if($userLogin == $login && $userPass == $pass || $userLogin == $fLogin && $userPass == $fPass) {
+                if(password_verify($userPass, $userPassRef)) {
                   // 2 variables de session sont créées et récupèrent ce qui a été saisi dans le champ
                   $_SESSION['login'] = $userLogin;
                   $_SESSION['password'] = $userPass;

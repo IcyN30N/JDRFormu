@@ -1,5 +1,6 @@
 <?php
   session_start();
+  require_once('Database.class.php');
  ?>
 
 <!doctype html>
@@ -37,6 +38,8 @@
     </section>
 
     <?php
+
+
       if(isset($_POST['newAccount'])) {
         // stockage des données rentrées et sécurisation via htmlspecialchars
         $newUserLogin = htmlspecialchars($_POST['userLogin']);
@@ -52,7 +55,12 @@
         // on demande à php de tenter la connexion à la bdd via PDO si les 2 mots de passe saisis sont identiques sinon...
         try {
         if($newUserPwd == $newUserPwdConfirm && $newUserLogin !== $newUserPwd) {
-          // on se connecte à la base de données avec l'objet PDO
+          // on crée une nouvelle instance de la classe Database.
+          $Toju = new Database;
+          $Toju->createNewMember($newUserLogin, $newUserPwdHashed, $newUserMail, $newUserLang);
+
+          /* Manière procédurale !!
+          
           $bdd = new PDO('mysql:host=localhost;dbname=jdrformu;charset=utf8', 'root', '');
 
           // on prépare la requête (création d'un compte utilisateur)
@@ -64,12 +72,13 @@
             'email' => $newUserMail,
             'language' => $newUserLang
           ));
+          $reqCreateAccount->closeCursor();
+          */
 
           // on affiche un message pour signifier le succès de la création de compte à l'utilisateur/ice.
           echo"SUCCESS ! <br> Le compte utilisateur a bien été créé !";
-          $reqCreateAccount->closeCursor();
 
-          /* vérification que la fonction password_verify reconnait bien le hash. 
+          /* vérification que la fonction password_verify reconnait bien le hash.
           if(password_verify($newUserPwd, $newUserPwdHashed)) {
             echo "Hey, gros boulot !";
           } else {
