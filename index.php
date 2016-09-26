@@ -1,5 +1,6 @@
 <?php
   session_start();
+  require_once("Database.class.php");
  ?>
 
 <!doctype html>
@@ -126,7 +127,7 @@
                                     <option value='la terre' selected>terre</option>
                                       <option value='l'air'>air</option>
                                       <option value='le feu'>feu</option>
-                                      <option value='l'eau'>archer-re</option>
+                                      <option value='l'eau'>eau</option>
                                   </select>
                               	<button type='submit' name='genPerso' >Valider</button>
 							  </form>
@@ -269,7 +270,9 @@
                             $choixDeSavePerso = $_POST['choixSavePerso'];
                             echo $choixDeSavePerso;
                             if($choixDeSavePerso == 'oui') {
-                              // on se connecte à la base de données avec l'objet PDO
+                              $Anzor = new Database;
+                              $Anzor->createNewCharacter($_SESSION['persoNom'], $_SESSION['persoGenre'], $_SESSION['persoClasse'], $_SESSION['persoAge'], $_SESSION['persoElement'], $_SESSION['persoObjets']);
+                            /*  méthode procédurale : on se connecte à la base de données avec l'objet PDO
                               $bdd = new PDO('mysql:host=localhost;dbname=jdrformu;charset=utf8', 'root', '');
 
                               // on prépare la requête (création d'un compte utilisateur)
@@ -283,7 +286,7 @@
                                 'element' => $_SESSION['persoElement'],
                                 'objets' =>$_SESSION['persoObjets']
                               ));
-                              $reqCreatePerso->closeCursor();
+                              $reqCreatePerso->closeCursor(); */
                             } elseif($choixDeSavePerso == 'non') {
                               echo " <h1>nope nope, dommage !<h1> ";
                             }
