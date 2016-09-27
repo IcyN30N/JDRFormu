@@ -58,32 +58,10 @@
           // on crée une nouvelle instance de la classe Database.
           $Toju = new Database;
           $Toju->createNewMember($newUserLogin, $newUserPwdHashed, $newUserMail, $newUserLang);
-
-          /* Manière procédurale !!
           
-          $bdd = new PDO('mysql:host=localhost;dbname=jdrformu;charset=utf8', 'root', '');
-
-          // on prépare la requête (création d'un compte utilisateur)
-          $reqCreateAccount = $bdd->prepare('INSERT INTO membres(login, password, email, language) VALUES(:login, :password, :email, :language)');
-          // on passe un tableau contenant les infos submitted par l'user pour pouvoir exécuter la requête
-          $reqCreateAccount->execute(array(
-            'login' => $newUserLogin,
-            'password' => $newUserPwdHashed,
-            'email' => $newUserMail,
-            'language' => $newUserLang
-          ));
-          $reqCreateAccount->closeCursor();
-          */
-
           // on affiche un message pour signifier le succès de la création de compte à l'utilisateur/ice.
           echo"SUCCESS ! <br> Le compte utilisateur a bien été créé !";
 
-          /* vérification que la fonction password_verify reconnait bien le hash.
-          if(password_verify($newUserPwd, $newUserPwdHashed)) {
-            echo "Hey, gros boulot !";
-          } else {
-            echo "VCS prêts (à réparer) !";
-          } */
           // on vérifie que le login n'est pas identique au mot de passe
         } elseif ($newUserLogin == $newUserPwd) {
           echo "Votre mot de passe doit être différent de votre login !";

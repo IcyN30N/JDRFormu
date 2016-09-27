@@ -100,7 +100,6 @@
 
             if(isset($_POST['genType'])) {
                 $selectVal = $_POST['genType'];
-                 //echo("<h3 class='col-lg-12'>". "DEBUG ". $selectVal . "<h3>");
                  echo("<h3 class='col-lg-12'> Continuons voulez vous ? <h3>");
 
                   switch ($selectVal){
@@ -195,7 +194,6 @@
                                $persoElement = $_POST['persoElement'];
                                $persoObjets = randomSelect($tabItemInBag);
 
-                      //echo "<h3 class='col-lg-12'>Hey Hey, je me suis infiltré-e  !!";
                              echo "<h1 class='col-lg-12'> HEYO !  Mon nom est : " . $persoNom . "</h1>";
                              echo "<p class='col-lg-12'> Je suis une personne " . $persoGenre . ", " . $persoClasse . " de profession.</p>";
                              echo "<p class='col-lg-12'> J'ai : " . $persoAge . " ans et " . $persoElement . " m'attire beaucoup. </p>";
@@ -230,7 +228,6 @@
 
 
                           } elseif (isset($_POST['genVille'])) {
-                            //  echo "<h3 class='col-lg-12'>Hey Hey, je me suis infiltré-e (genVille) !!";
                                echo "<p class='col-lg-12'> Tu as généré : " . $_POST['villeTaille'] . " " . $_POST['villeEnv'] . " . Son attrait est " . $_POST['villeAtout'] . ". </p>";
 
                                /*
@@ -246,8 +243,6 @@
                                   </form>"
                                 );*/
                           }  elseif (isset($_POST['genEvent'])) {
-                          /*    echo "<h3 class='col-lg-12'>Hey Hey, je me suis infiltré-e (genEvent) !!";
-                                echo "<p class='col-lg-12'> J'ai choisi: " . $_POST['eventType'] . ". </p>"; */
                               switch ($_POST['eventType']) {
                                 case 'vie':
                                   echo "<h1 class='col-lg-12'> Action obtenue :" . randAssemble($tabLifeEvent, $tabLifeEvent2) . "</h1>";
@@ -272,21 +267,6 @@
                             if($choixDeSavePerso == 'oui') {
                               $Anzor = new Database;
                               $Anzor->createNewCharacter($_SESSION['persoNom'], $_SESSION['persoGenre'], $_SESSION['persoClasse'], $_SESSION['persoAge'], $_SESSION['persoElement'], $_SESSION['persoObjets']);
-                            /*  méthode procédurale : on se connecte à la base de données avec l'objet PDO
-                              $bdd = new PDO('mysql:host=localhost;dbname=jdrformu;charset=utf8', 'root', '');
-
-                              // on prépare la requête (création d'un compte utilisateur)
-                              $reqCreatePerso = $bdd->prepare('INSERT INTO personnages(nom, genre, classe, age, element, objets) VALUES(:nom, :genre, :classe, :age, :element, :objets)');
-                              // on passe un tableau contenant les infos submitted par l'user pour pouvoir exécuter la requête
-                              $reqCreatePerso->execute(array(
-                                'nom' => $_SESSION['persoNom'],
-                                'genre' => $_SESSION['persoGenre'],
-                                'classe' => $_SESSION['persoClasse'],
-                                'age' => $_SESSION['persoAge'],
-                                'element' => $_SESSION['persoElement'],
-                                'objets' =>$_SESSION['persoObjets']
-                              ));
-                              $reqCreatePerso->closeCursor(); */
                             } elseif($choixDeSavePerso == 'non') {
                               echo " <h1>nope nope, dommage !<h1> ";
                             }

@@ -2,9 +2,8 @@
 
   class Database {
     // propriétés
-    //private $infoDeCo = new PDO('mysql:host=localhost;dbname=jdrformu;charset=utf8', 'root', '');
-    //private $fermeture = $reqCreateAccount->closeCursor();
 
+    // constructeur
     public function __construct() {
 
     }
@@ -45,6 +44,31 @@
       $reqCreatePerso->closeCursor();
     }
 
+    public function createNewCity($taille, $environnement, $attrait) {
+      // on prépare la requête (création d'une nouvelle ville)
+      $infoDeCo = new PDO('mysql:host=localhost;dbname=jdrformu;charset=utf8', 'root', '');
+      $reqCreateCity = $infoDeCo->prepare('INSERT INTO villes(taille, environnement, attrait) VALUES(:taille, :environnement, :attrait)');
+      // on passe un tableau contenant les infos submitted par l'user pour pouvoir exécuter la requête
+      $reqCreateCity->execute(array(
+        'taille' => $taille,
+        'environnement' => $environnement,
+        'attrait' => $attrait
+      ));
+      $reqCreateCity->closeCursor();
+    }
+
+    public function createNewEvent($type, $evenement) {
+      // on prépare la requête (création d'un nouvel évènement)
+      $infoDeCo = new PDO('mysql:host=localhost;dbname=jdrformu;charset=utf8', 'root', '');
+      $reqCreateEvent = $infoDeCo->prepare('INSERT INTO evenements(type, evenement) VALUES(:type, :evenement)');
+      // on passe un tableau contenant les infos submitted par l'user pour pouvoir exécuter la requête
+      $reqCreateEvent->execute(array(
+        'type' => $type,
+        'evenement' => $evenement
+      ));
+      $reqCreateEvent->closeCursor();
+    }
+
     public function loginCheck($loginToCheck) {
       $infoDeCo = new PDO('mysql:host=localhost;dbname=jdrformu;charset=utf8', 'root', '');
       $req = $infoDeCo->prepare('SELECT password FROM membres WHERE login = :login');
@@ -65,6 +89,7 @@
           while($donnees = $req->fetch()) {
           echo "<h1>Je m'appelle ". $donnees['nom'] . "</h1><br>";
           }
+          $req->closeCursor();
           break;
 
         case 'villes':
@@ -72,20 +97,21 @@
           while($donnees = $req->fetch()) {
             echo "<h1> Mon attrait est ". $donnees['attrait'] . "</h1><br>";
           }
+          $req->closeCursor();
           break;
 
         case 'evenements':
           $req = $infoDeCo->query('SELECT * FROM evenements');
           while($donnees = $req->fetch()) {
-            echo "<h1>Je m'appelle ". $donnees['evenements'] . "</h1><br>";
+            echo "<h1>Je m'appelle ". $donnees['evenement'] . "</h1><br>";
           }
+          $req->closeCursor();
           break;
 
         default:
           # code...
           break;
         }
-        $req->closeCursor();
     }
 
 
