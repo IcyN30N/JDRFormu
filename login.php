@@ -29,9 +29,6 @@
                 $Anju->loginCheck($userLogin);
 
                 $userPassRef = $_POST['refPass'];
-                //2 variables qui contiennent la bonne valeur pour se connecter
-                $login = "kiwi";
-                $pass = "fraise";
 
                 if(password_verify($userPass, $userPassRef)) {
                   // 2 variables de session sont créées et récupèrent ce qui a été saisi dans le champ

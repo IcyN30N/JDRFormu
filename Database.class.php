@@ -14,6 +14,8 @@
 
     // méthodes
 
+    // ---- Méthodes de Création ---- //
+
     public function createNewMember($login, $pass, $mail, $lang ) {
       // on prépare la requête (création d'un compte utilisateur)
       $infoDeCo = new PDO('mysql:host=localhost;dbname=jdrformu;charset=utf8', 'root', '');
@@ -69,6 +71,41 @@
       $reqCreateEvent->closeCursor();
     }
 
+
+    // ---- Méthodes de Modification ---- //
+
+    public function databaseChange($tableToTarget, $newDatasArray) {
+      $infoDeCo = new PDO('mysql:host=localhost;dbname=jdrformu;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+      switch ($tableToTarget) {
+        case 'membres':
+          $reqUpdateMember = $infoDeCo->prepare('UPDATE membres set password = :newPassword, email = :newEmail, language = :newLanguage WHERE login = :userLogin');
+          $reqUpdateMember->execute(array(
+            'newPassword' => $newDatasArray[0],
+            'newEmail' => $newDatasArray[1],
+            'newLanguage' => $newDatasArray[2],
+            'userLogin' => $_SESSION['login']
+          ));
+          $reqUpdateMember->closeCursor();
+          break;
+        case 'personnages':
+        // à compléter plus tard avec une variable contenant de quoi sélectionner un perso ( son id !)
+          break;
+        case 'villes':
+        // à compléter plus tard avec une variable contenant de quoi sélectionner une ville ( son id !)
+          # code...
+          break;
+        case 'evenements':
+        // à compléter plus tard avec une variable contenant de quoi sélectionner un évent ( son id !)
+          # code...
+          break;
+        default:
+          # code...
+          break;
+      }
+    }
+
+    // ---- Méthodes de XXXX---- //
+
     public function loginCheck($loginToCheck) {
       $infoDeCo = new PDO('mysql:host=localhost;dbname=jdrformu;charset=utf8', 'root', '');
       $req = $infoDeCo->prepare('SELECT password FROM membres WHERE login = :login');
@@ -112,6 +149,18 @@
           # code...
           break;
         }
+    }
+
+    public function getOneMember() {
+      $infoDeCo = new PDO('mysql:host=localhost;dbname=jdrformu;charset=utf8', 'root', '');
+      $getMember = $infoDeCo->prepare('SELECT * FROM membres WHERE login = :login');
+      $getMember->execute(array(
+        'login' => $_SESSION['login']
+      ));
+      $donneesMember = $getMember->fetch();
+      $_SESSION['password'] = $donneesMember['password'];
+      $_SESSION['email'] = $donneesMember['email'];
+      $_SESSION['langue'] = $donneesMember['language'];
     }
 
 
