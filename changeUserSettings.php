@@ -19,36 +19,36 @@
   <section class="container-fluid">
     <div class="row">
       <?php
+      if(isset($_SESSION['login'])) {
+        echo '<p class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-right"> ' . $_SESSION['login'] . ' est connecté(e)</p>';
+      }
         if(isset($_POST['UserInfoForm']) && $_POST['newPassword'] !== $_SESSION['login']) {
           $Numhiel = new Database;
-          $Numhiel->getOneMember();
-          var_dump($_SESSION);
           $tableToTarget = "membres";
           //$newUserInfos = [$_SESSION['password'] , $_SESSION['email'] , $_SESSION['langue']];
           $newUserInfos = [];
           if($_POST['newPassword'] !== '' && $_POST['newPassword'] !== $_SESSION['login']) {
+            $Numhiel->getOneMember();
             $newPassword = htmlspecialchars($_POST['newPassword']);
             // sécurisation du password
             $optionCost = ['cost'=>12,];
             $newHashedPassword = password_hash($newPassword, PASSWORD_BCRYPT, $optionCost);
-            // il faut faire l'envoi vers la BDD
-            echo $newHashedPassword;
             $newUserInfos = [$newHashedPassword, $_SESSION['email'], $_SESSION['langue']];
             $Numhiel->databaseChange($tableToTarget, $newUserInfos);
           }
           if($_POST['newMail'] !== '') {
+            $Numhiel->getOneMember();
             $newMail = htmlspecialchars($_POST['newMail']);
-            echo $newMail;
             $newUserInfos = [$_SESSION['password'], $newMail, $_SESSION['langue']];
             $Numhiel->databaseChange($tableToTarget, $newUserInfos);
           }
           if($_POST['newPrefLang'] !== '') {
+            $Numhiel->getOneMember();
             $newPrefLang = $_POST['newPrefLang'];
-            echo $newPrefLang;
             $newUserInfos = [$_SESSION['password'], $_SESSION['email'], $newPrefLang];
             $Numhiel->databaseChange($tableToTarget, $newUserInfos);
           }
-          var_dump($_POST);
+          echo "<p class='col-lg-12'>Nous avons bien pris en compte ces changements.</p>";
         } elseif(isset($_POST['UserInfoForm']) && $_POST['newPassword'] == $_SESSION['login']) {
           echo "<h1>le mot de passe doit être différent du login !!</h1>";
         }
