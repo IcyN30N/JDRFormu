@@ -101,7 +101,7 @@
             if(isset($_POST['genType'])) {
                 $selectVal = $_POST['genType'];
                  echo("<h3 class='col-lg-12'> Continuons voulez vous ? <h3>");
-
+                 $Crolix = new Database;
                   switch ($selectVal){
                       case 'personnage':
                           echo("
@@ -109,24 +109,18 @@
                                   <label class='col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center'>formulaire de génération de personnage</label>
 								  <label class='col-lg-4 col-md-4 col-sm-12 col-xs-12'>Genre</label>
                                   <select name='persoGenre' class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
-                                      <option value='garçon' selected>je suis un garçon</option>
-                                      <option value='fille'>je suis une fille</option>
-                                      <option value='genderfluid'>je suis genderfluid</option>
+                                      <option value='masculin' selected>je suis de genre masculin</option>
+                                      <option value='féminin'>je suis de genre féminin</option>
                                       <option value='neutre'>je suis de genre neutre</option>
+                                      <option value='genre fluide'>je suis de genre fluide</option>
                                   </select>
 								  <label class='col-lg-4 col-md-4 col-sm-12 col-xs-12'>Classe du perso</label>
                                   <select name='persoClasse' class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
-                                      <option value='guerrier-re' selected>guerrier-re</option>
-                                      <option value='magicien-ne'>magicien-ne</option>
-                                      <option value='voleur-se'>voleur-se</option>
-                                      <option value='archer-re'>archer-re</option>
+                                "  . $Crolix->selectContentGenerator("classe") . "
                                   </select>
                                   <label class='col-lg-4 col-md-4 col-sm-12 col-xs-12'>attirance élémentaire</label>
                                   <select name='persoElement' class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
-                                    <option value='la terre' selected>terre</option>
-                                      <option value='l'air'>air</option>
-                                      <option value='le feu'>feu</option>
-                                      <option value='l'eau'>eau</option>
+                                    "  . $Crolix->selectContentGenerator("element") . "
                                   </select>
                               	<button type='submit' name='genPerso' >Valider</button>
 							  </form>
@@ -138,27 +132,15 @@
                                 <label class='col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center'>formulaire de génération de ville</label>
                                 <label class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>Taille</label>
                                 <select name='villeTaille' class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
-                                    <option value='ville' selected>ville</option>
-                                    <option value='village'>village</option>
-                                    <option value='cité'>cité</option>
+                                  "  . $Crolix->selectContentGenerator("taille") . "
                                 </select>
                                 <label class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>Environnement</label>
                                 <select name='villeEnv' class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
-                                    <option value='urbaine' selected>urbaine</option>
-                                    <option value='montagnarde'>montagnarde</option>
-                                    <option value='portuaire'>portuaire</option>
-                                    <option value='aérienne'>aérienne</option>
-                                    <option value='sous-marine'>sous-marine</option>
-                                    <option value='forestière'>forestière</option>
-                                    <option value='campagnarde'>campagnarde</option>
+                                  "  . $Crolix->selectContentGenerator("env") . "
                                 </select>
                                 <label class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>Atout</label>
                                 <select name='villeAtout' class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
-                                    <option value='aucun' selected>aucun</option>
-                                    <option value='commercial'>commercial</option>
-                                    <option value='touristique'>touristique</option>
-                                    <option value='culturel'>culturel</option>
-                                    <option value='militaire'>militaire</option>
+                                  "  . $Crolix->selectContentGenerator("atout") . "
                                 </select>
                                   <button type='submit' name='genVille'>Valider</button>
                               </form>
@@ -230,19 +212,23 @@
                           } elseif (isset($_POST['genVille'])) {
                                echo "<p class='col-lg-12'> Tu as généré : " . $_POST['villeTaille'] . " " . $_POST['villeEnv'] . " . Son attrait est " . $_POST['villeAtout'] . ". </p>";
 
-                               /*
                                if(isset($_SESSION['login'])) {
                                  echo ("
-                                  <form>
+                                  <form name='saveVille' method='post' action='index.php'>
                                     <label>sauvegarder cette ville ?</label>
-                                    <select name='saveVille'>
+                                    <select name='choixSaveVille'>
                                       <option value='oui'>Oui</option>
                                       <option value='non'>Non</option>
                                     </select>
                                     <button type='submit' name='saveVille' >Valider</button>
                                   </form>"
-                                );*/
-                          }  elseif (isset($_POST['genEvent'])) {
+                                 );
+
+                                 $_SESSION['villeTaille'] = $_POST['villeTaille'];
+                                 $_SESSION['villeEnv'] = $_POST['villeEnv'];
+                                 $_SESSION['villeAtout'] = $_POST['villeAtout'];
+                               }
+                          } elseif (isset($_POST['genEvent'])) {
                               switch ($_POST['eventType']) {
                                 case 'vie':
                                   echo "<h1 class='col-lg-12'> Action obtenue :" . randAssemble($tabLifeEvent, $tabLifeEvent2) . "</h1>";
@@ -261,16 +247,33 @@
                               }
                           }
 
+
+                          // on vérifie qu'on a répondu à la demande d'enregistrement du personnage
                           if(isset($_POST['savePerso'])) {
                             $choixDeSavePerso = $_POST['choixSavePerso'];
                             echo $choixDeSavePerso;
+                            // si oui on l'envoie vers la BDD
                             if($choixDeSavePerso == 'oui') {
                               $Anzor = new Database;
-                              $Anzor->createNewCharacter($_SESSION['persoNom'], $_SESSION['persoGenre'], $_SESSION['persoClasse'], $_SESSION['persoAge'], $_SESSION['persoElement'], $_SESSION['persoObjets']);
-                            } elseif($choixDeSavePerso == 'non') {
+                              $Anzor->createNewCharacter($_SESSION['id'], $_SESSION['persoNom'], $_SESSION['persoGenre'], $_SESSION['persoClasse'], $_SESSION['persoAge'], $_SESSION['persoElement'], $_SESSION['persoObjets']);
+                              // si non on affiche un message
+                            } elseif ($choixDeSavePerso == 'non') {
+                                echo " <h1>nope nope, dommage !<h1> ";
+                            }
+                          // on vérifie qu'on a répondu à la demande d'enregistrement de la ville
+                          } elseif (isset($_POST['saveVille'])) {
+                            $choixDeSaveVille = $_POST['choixSaveVille'];
+                            echo $choixDeSaveVille;
+                            // si oui on l'envoie vers la BDD
+                            if($choixDeSaveVille == 'oui') {
+                              $Anzor = new Database;
+                              $Anzor->createNewCity($_SESSION['id'],"Anuénué",$_SESSION['villeTaille'], $_SESSION['villeEnv'], $_SESSION['villeAtout']);
+                            // si non on affiche un message
+                            } elseif ($choixDeSaveVille == 'non') {
                               echo " <h1>nope nope, dommage !<h1> ";
                             }
                           }
+
 
         ?>
     </section>

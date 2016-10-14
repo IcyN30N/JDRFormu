@@ -33,7 +33,6 @@
                 if(password_verify($userPass, $userPassRef)) {
                   // 2 variables de session sont créées et récupèrent ce qui a été saisi dans le champ
                   $_SESSION['login'] = $userLogin;
-                  $_SESSION['password'] = $userPass;
 
                     echo '<p class="col-lg-4 col-md-4 col-sm-12 col-xs-12 text-center"> ' . $_SESSION['login'] . ' est connecté(e)</p>';
                 } else {

@@ -49,6 +49,7 @@
             $Numhiel->databaseChange($tableToTarget, $newUserInfos);
           }
           echo "<p class='col-lg-12'>Nous avons bien pris en compte ces changements.</p>";
+          unset($_SESSION['password'], $_SESSION['email']);
         } elseif(isset($_POST['UserInfoForm']) && $_POST['newPassword'] == $_SESSION['login']) {
           echo "<h1>le mot de passe doit être différent du login !!</h1>";
         }

@@ -35,8 +35,8 @@ require_once("Database.class.php");
 
     if(isset($_POST['listeAAfficher'])) {
     $ceQueJeDoisAfficher =  $_POST['choixAAfficher'];
-    $Numhiel = new Database;
-    $Numhiel->listAll($ceQueJeDoisAfficher);
+    $Tozor = new Database;
+    $Tozor->listAll($ceQueJeDoisAfficher);
     }
   }
 
