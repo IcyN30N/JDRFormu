@@ -50,7 +50,7 @@
             $tabActionEvent = ["Soudain, un sorcier apparait et ","Une voleuse bondit en dehors d'un fourré et ","Avec rage, une guerrière à l'allure impressionnante ", "Un-e mort-e vivant-e "];
             $tabActionEvent2 = ["vous regarde furieusement.","jette une boule de feu.","saute sur le groupe.","sort une dague de sous sa cape.","semble psalmodier dans une langue inconnue.","hurle à tue tête que la fin du monde approche."];
             $tabTravelEvent = ["Des arbres bloquent ","Plusieurs bouts de métals acérés jonchent ","Une coulée de lave a détruit "];
-            $tabTravelEvent2 = ["le chemin de terre.","l'imposant pont de pierre qui mènent à la capitale.","la totalité des fortifications."];
+            $tabTravelEvent2 = ["le chemin de terre.","l'imposant pont de pierre qui mène à la capitale.","la totalité des fortifications."];
 
             // prend 2 tableaux, génère 2 nombres aléatoires et assemblent les 2 éléments sélectionnés.
             function randAssemble($arrElem1, $arrElem2) {
@@ -152,9 +152,7 @@
                                   <label class='col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center'>formulaire de génération d'évènement</label>
                                   <label class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>Type d'évènement</label>
                                   <select name='eventType' class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
-                                      <option value='vie' selected>vie</option>
-                                      <option value='voyage'>voyage</option>
-                                      <option value='action'>action</option>
+                                    "  . $Crolix->selectContentGenerator("type") . "
                                   </select>
                                   <button type='submit' name='genEvent' >Valider</button>
                               </form>
@@ -169,12 +167,14 @@
 
                 if(isset($_POST['genPerso'])) {
 
-                  $persoNom = randAssemble($tabNomFirstPart, $tabNomSecondPart);
-                               $persoGenre = $_POST['persoGenre'];
-                               $persoClasse = $_POST['persoClasse'];
-                               $persoAge = randomAge();
-                               $persoElement = $_POST['persoElement'];
-                               $persoObjets = randomSelect($tabItemInBag);
+                  //$persoNom = randAssemble($tabNomFirstPart, $tabNomSecondPart);
+                  $Loraï = new Database;
+                  $persoNom = $Loraï->mashUpTwoThingsTogether("nom");
+                  $persoGenre = $_POST['persoGenre'];
+                  $persoClasse = $_POST['persoClasse'];
+                  $persoAge = randomAge();
+                  $persoElement = $_POST['persoElement'];
+                  $persoObjets = randomSelect($tabItemInBag);
 
                              echo "<h1 class='col-lg-12'> HEYO !  Mon nom est : " . $persoNom . "</h1>";
                              echo "<p class='col-lg-12'> Je suis une personne " . $persoGenre . ", " . $persoClasse . " de profession.</p>";
@@ -229,22 +229,10 @@
                                  $_SESSION['villeAtout'] = $_POST['villeAtout'];
                                }
                           } elseif (isset($_POST['genEvent'])) {
-                              switch ($_POST['eventType']) {
-                                case 'vie':
-                                  echo "<h1 class='col-lg-12'> Action obtenue :" . randAssemble($tabLifeEvent, $tabLifeEvent2) . "</h1>";
-                                  break;
+                            $Numiria = new Database;
+                            $monEvent = $Numiria->mashUpTwoThingsTogether("evenement");
+                            echo "<h1>$monEvent</h1>";
 
-                                case 'voyage':
-                                  echo "<h1 class='col-lg-12'> Action obtenue :" . randAssemble($tabTravelEvent, $tabTravelEvent2) . "</h1>";
-                                break;
-
-                                case 'action':
-                                  echo "<h1 class='col-lg-12'> Action obtenue :" . randAssemble($tabActionEvent, $tabActionEvent2) . "</h1>";
-                                break;
-
-                                default:
-                                  break;
-                              }
                           }
 
 

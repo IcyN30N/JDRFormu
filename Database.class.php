@@ -16,6 +16,7 @@
 
     // ---- Méthodes de Création ---- //
 
+
     public function createNewMember($login, $pass, $mail, $lang ) {
       // on prépare la requête (création d'un compte utilisateur)
       $infoDeCo = new PDO('mysql:host=localhost;dbname=jdrformu;charset=utf8', 'root', '');
@@ -109,6 +110,76 @@
 
     // ---- Méthodes de XXXX---- //
 
+    public function mashUpTwoThingsTogether($typeOfThingsToMashUp) {
+      $infoDeCo = new PDO('mysql:host=localhost;dbname=jdrformu;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+      switch ($typeOfThingsToMashUp) {
+        case 'nom':
+
+          $countFirstNameParts = $infoDeCo->query('SELECT COUNT(id_nom_part_1) FROM nompart1');
+          $howManyPart1 = $countFirstNameParts->fetch();
+          $pseudoRandomFirstId = rand(1, $howManyPart1[0]);
+          $selectFirstNamePart = $infoDeCo->query("SELECT nom_part FROM nompart1 WHERE id_nom_part_1 = $pseudoRandomFirstId");
+          $pseudoRandomFirstNamePart = $selectFirstNamePart->fetch();
+          // la DB nous envoie un tableau, il faut donc réassigner la valeur pour ne garder que la partie de nom, seul élément qui nous intéresse.
+          $pseudoRandomCoolName = $pseudoRandomFirstNamePart[0];
+
+          // ---- SECONDE PARTIE DU NOM ---- //
+          $countSecondNameParts = $infoDeCo->query('SELECT COUNT(id_nom_part_2) FROM nompart2');
+          $howManyPart2 = $countSecondNameParts->fetch();
+          $pseudoRandomSecondId = rand(1, $howManyPart2[0]);
+          $selectSecondNamePart = $infoDeCo->query("SELECT nom_part FROM nompart2 WHERE id_nom_part_2 = $pseudoRandomSecondId");
+          $pseudoRandomSecondNamePart = $selectSecondNamePart->fetch();
+          // on ajoute la première moitié de nom à la seconde
+          $pseudoRandomCoolName.= $pseudoRandomSecondNamePart[0];
+          return $pseudoRandomCoolName;
+          $selectSecondNamePart->closeCursor();
+          break;
+
+        case 'evenement':
+          $eventType = $_POST['eventType'];
+          $countFirstEventPart = $infoDeCo->prepare("SELECT id_event_part_1 FROM eventpart1 WHERE type_event = :eventType");
+          $countFirstEventPart->execute(array(
+            'eventType' => $eventType
+          ));
+          $eventPart1Container = [];
+          // on récupère les ids des 1ères parties d'evenement et on les envoie dans le tableau
+          while($firstParts = $countFirstEventPart->fetch()) {
+            $eventPart1Container[] = $firstParts;
+          }
+          $ArrayPart1Size = count($eventPart1Container) - 1;
+          $pseudoRandomNumber = rand(0, $ArrayPart1Size);
+          // on fait en sorte que pseudoRandomFirstId contienne une valeur et ne soit pas un tableau
+          $pseudoRandomFirstId = $eventPart1Container[$pseudoRandomNumber];
+          $pseudoRandomFirstId = $pseudoRandomFirstId[0];
+          $selectFirstEventPart = $infoDeCo->query("SELECT event_part FROM eventpart1 WHERE id_event_part_1 = $pseudoRandomFirstId");
+          $pseudoRandomCoolEventPart1 = $selectFirstEventPart->fetch();
+          $pseudoRandomCoolEvent = $pseudoRandomCoolEventPart1[0];
+
+
+          $countSecondEventPart = $infoDeCo->prepare("SELECT id_event_part_2 FROM eventpart2 WHERE type_event = :eventType");
+          $countSecondEventPart->execute(array(
+            'eventType' => $eventType
+          ));
+          $eventPart2Container = [];
+          // on récupère les ids des 1ères parties d'evenement et on les envoie dans le tableau
+          while($secondParts = $countSecondEventPart->fetch()) {
+            $eventPart2Container[] = $secondParts;
+          }
+          $ArrayPart2Size = count($eventPart2Container) - 1;
+          $pseudoRandomNumber = rand(0, $ArrayPart2Size);
+          // on fait en sorte que pseudoRandomSecondId contienne une valeur et ne soit pas un tableau
+          $pseudoRandomSecondId = $eventPart2Container[$pseudoRandomNumber];
+          $pseudoRandomSecondId = $pseudoRandomSecondId[0];
+          $selectSecondEventPart = $infoDeCo->query("SELECT event_part FROM eventpart2 WHERE id_event_part_2 = $pseudoRandomSecondId");
+          $pseudoRandomCoolEventPart2 = $selectSecondEventPart->fetch();
+          $pseudoRandomCoolEvent .= $pseudoRandomCoolEventPart2[0];
+          return $pseudoRandomCoolEvent;
+          $selectSecondEventPart->closeCursor();
+          break;
+
+      }
+    }
+
     public function selectContentGenerator($contentToGenerate) {
       $infoDeCo = new PDO('mysql:host=localhost;dbname=jdrformu;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
       switch ($contentToGenerate) {
@@ -157,6 +228,16 @@
           $options = "";
           while($donnees = $req->fetch()) {
             $options .= "<option value=" . $donnees['id_attrait'] . ">" . $donnees['attrait'] . "</option>";
+          }
+          $req->closeCursor();
+          return $options;
+            break;
+
+        case 'type':
+          $req = $infoDeCo->query('SELECT * FROM types ORDER BY id_type');
+          $options = "";
+          while($donnees = $req->fetch()) {
+            $options .= "<option value=" . $donnees['id_type'] . ">" . $donnees['type'] . "</option>";
           }
           $req->closeCursor();
           return $options;
