@@ -1,6 +1,11 @@
 <?php
   session_start();
   require_once("Database.class.php");
+  if( ! (isset($_SESSION['login']) ) ) {
+    header('Location: error401.html');
+  } else {
+
+
 ?>
 
 <!doctype html>
@@ -18,61 +23,57 @@
 <body>
   <section class="container-fluid">
     <div class="row">
+
+      <form name="UserInfoForm" class="col-lg-12" method="post">
+        <label class="col-lg-6 col-md-6">password</label>
+        <input type="text" name="newPassword" placeholder="monMotDePasse" class="col-lg-6 col-md-6">
+        <label class="col-lg-6">email</label>
+        <input type="email" name="newMail" placeholder="juniper@jdr.com" class="col-lg-6">
+        <label class="col-lg-6">language</label>
+        <select class="col-lg-6" name="newPrefLang">
+          <option value="" selected></option>
+          <option value="FR">FR</option>
+          <option value="EN">EN</option>
+        </select>
+        <button type="submit" name="UserInfoForm">Sauvegarder mes modifications</button>
+      </form>
+
+
       <?php
-      if(isset($_SESSION['login'])) {
-        echo '<p class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-right"> ' . $_SESSION['login'] . ' est connecté(e)</p>';
-      }
-        if(isset($_POST['UserInfoForm']) && $_POST['newPassword'] !== $_SESSION['login']) {
-          $Numhiel = new Database;
-          $tableToTarget = "membres";
-          //$newUserInfos = [$_SESSION['password'] , $_SESSION['email'] , $_SESSION['langue']];
-          $newUserInfos = [];
-          if($_POST['newPassword'] !== '' && $_POST['newPassword'] !== $_SESSION['login']) {
-            $Numhiel->getOneMember();
-            $newPassword = htmlspecialchars($_POST['newPassword']);
-            // sécurisation du password
-            $optionCost = ['cost'=>12,];
-            $newHashedPassword = password_hash($newPassword, PASSWORD_BCRYPT, $optionCost);
-            $newUserInfos = [$newHashedPassword, $_SESSION['email'], $_SESSION['langue']];
-            $Numhiel->databaseChange($tableToTarget, $newUserInfos);
+          echo '<p class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-right"> ' . $_SESSION['login'] . ' est connecté(e)</p>';
+
+          if(isset($_POST['UserInfoForm']) && $_POST['newPassword'] !== $_SESSION['login']) {
+            $Numhiel = new Database;
+            $tableToTarget = "membres";
+            //$newUserInfos = [$_SESSION['password'] , $_SESSION['email'] , $_SESSION['langue']];
+            $newUserInfos = [];
+            if($_POST['newPassword'] !== '' && $_POST['newPassword'] !== $_SESSION['login']) {
+              $Numhiel->getOneMember();
+              $newPassword = htmlspecialchars($_POST['newPassword']);
+              // sécurisation du password
+              $optionCost = ['cost'=>12,];
+              $newHashedPassword = password_hash($newPassword, PASSWORD_BCRYPT, $optionCost);
+              $newUserInfos = [$newHashedPassword, $_SESSION['email'], $_SESSION['langue']];
+              $Numhiel->databaseChange($tableToTarget, $newUserInfos);
+            }
+            if($_POST['newMail'] !== '') {
+              $Numhiel->getOneMember();
+              $newMail = htmlspecialchars($_POST['newMail']);
+              $newUserInfos = [$_SESSION['password'], $newMail, $_SESSION['langue']];
+              $Numhiel->databaseChange($tableToTarget, $newUserInfos);
+            }
+            if($_POST['newPrefLang'] !== '') {
+              $Numhiel->getOneMember();
+              $newPrefLang = $_POST['newPrefLang'];
+              $newUserInfos = [$_SESSION['password'], $_SESSION['email'], $newPrefLang];
+              $Numhiel->databaseChange($tableToTarget, $newUserInfos);
+            }
+            echo "<p class='col-lg-12'>Nous avons bien pris en compte ces changements.</p>";
+            unset($_SESSION['password'], $_SESSION['email']);
+          } elseif(isset($_POST['UserInfoForm']) && $_POST['newPassword'] == $_SESSION['login']) {
+            echo "<h1>le mot de passe doit être différent du login !!</h1>";
           }
-          if($_POST['newMail'] !== '') {
-            $Numhiel->getOneMember();
-            $newMail = htmlspecialchars($_POST['newMail']);
-            $newUserInfos = [$_SESSION['password'], $newMail, $_SESSION['langue']];
-            $Numhiel->databaseChange($tableToTarget, $newUserInfos);
-          }
-          if($_POST['newPrefLang'] !== '') {
-            $Numhiel->getOneMember();
-            $newPrefLang = $_POST['newPrefLang'];
-            $newUserInfos = [$_SESSION['password'], $_SESSION['email'], $newPrefLang];
-            $Numhiel->databaseChange($tableToTarget, $newUserInfos);
-          }
-          echo "<p class='col-lg-12'>Nous avons bien pris en compte ces changements.</p>";
-          unset($_SESSION['password'], $_SESSION['email']);
-        } elseif(isset($_POST['UserInfoForm']) && $_POST['newPassword'] == $_SESSION['login']) {
-          echo "<h1>le mot de passe doit être différent du login !!</h1>";
-        }
-       ?>
-      <?php
-        if(isset($_SESSION['login'])) {
-          echo('
-          <form name="UserInfoForm" class="col-lg-12" method="post">
-            <label class="col-lg-6 col-md-6">password</label>
-            <input type="text" name="newPassword" placeholder="monMotDePasse" class="col-lg-6 col-md-6">
-            <label class="col-lg-6">email</label>
-            <input type="email" name="newMail" placeholder="juniper@jdr.com" class="col-lg-6">
-            <label class="col-lg-6">language</label>
-            <select class="col-lg-6" name="newPrefLang">
-              <option value="" selected></option>
-              <option value="FR">FR</option>
-              <option value="EN">EN</option>
-            </select>
-            <button type="submit" name="UserInfoForm">Sauvegarder mes modifications</button>
-          </form>
-          ');
-        } else {
-            echo "<h1 col-lg-12 text-center>Accès interdit !<h1>";
+
         }
       ?>
     </div>
