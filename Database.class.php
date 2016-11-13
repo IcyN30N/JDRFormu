@@ -108,6 +108,37 @@
       }
     }
 
+    public function passwordChange($newPassword, $userLogin) {
+      $infoDeCo = new PDO('mysql:host=localhost;dbname=jdrformu;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+      $reqUpdatePassword = $infoDeCo->prepare('UPDATE membres set mdp_membre = :newPassword WHERE login_membre = :userLogin');
+      $reqUpdatePassword->execute(array(
+        'newPassword' => $newPassword,
+        'userLogin' => $userLogin
+      ));
+      $reqUpdatePassword->closeCursor();
+    }
+
+    public function retrievePwdCodeUpdate($magicKey, $userLogin, $userMail) {
+      $infoDeCo = new PDO('mysql:host=localhost;dbname=jdrformu;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+      $reqUpdatePwdCode = $infoDeCo->prepare('UPDATE membres set code_recup_mdp_membre = :newPwdCode WHERE login_membre = :userLogin AND email_membre = :userMail');
+      $reqUpdatePwdCode->execute(array(
+        'newPwdCode' => $magicKey,
+        'userLogin' => $userLogin,
+        'userMail' => $userMail
+      ));
+      $reqUpdatePwdCode->closeCursor();
+    }
+
+    public function retrievePwdCodeClean($emptyKey, $userLogin) {
+      $infoDeCo = new PDO('mysql:host=localhost;dbname=jdrformu;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+      $reqUpdatePwdCode = $infoDeCo->prepare('UPDATE membres set code_recup_mdp_membre = :emptyPwdCode WHERE login_membre = :userLogin');
+      $reqUpdatePwdCode->execute(array(
+        'emptyPwdCode' => $emptyKey,
+        'userLogin' => $userLogin,
+      ));
+      $reqUpdatePwdCode->closeCursor();
+    }
+
     // ---- Méthodes de XXXX---- //
 
     public function mashUpTwoThingsTogether($typeOfThingsToMashUp) {
@@ -247,14 +278,51 @@
 
     public function loginCheck($loginToCheck) {
       $infoDeCo = new PDO('mysql:host=localhost;dbname=jdrformu;charset=utf8', 'root', '');
-      $req = $infoDeCo->prepare('SELECT mdp_membre, id_membre FROM membres WHERE login_membre = :login');
+      $req = $infoDeCo->prepare('SELECT mdp_membre, id_membre, email_membre FROM membres WHERE login_membre = :login');
       $req->execute(array(
         'login' => $loginToCheck
       ));
       $donnees = $req->fetch();
       $_SESSION['id'] = $donnees['id_membre'];
       $_POST['refPass'] = $donnees['mdp_membre'];
+      $_SESSION['mail'] = $donnees['email_membre'];
       $req->closeCursor();
+    }
+
+    public function mailCheck($mailToCompare, $loginToCheck) {
+      $infoDeCo = new PDO('mysql:host=localhost;dbname=jdrformu;charset=utf8', 'root', '');
+      $reqCheckMail = $infoDeCo->prepare('SELECT email_membre FROM membres WHERE login_membre = :login');
+      $reqCheckMail->execute(array(
+        'login' => $loginToCheck
+      ));
+      $donnees = $reqCheckMail->fetch();
+      if($mailToCompare == $donnees['email_membre']) {
+        $truthChecker = true;
+        return $truthChecker;
+      } else {
+        $truthChecker = false;
+        return $truthChecker;
+      }
+      return $truthChecker;
+      $reqCheckMail->closeCursor();
+    }
+
+    public function retrievePwdCodeCheck($retrievePwdCodeToCheck, $userLogin) {
+      $infoDeCo = new PDO('mysql:host=localhost;dbname=jdrformu;charset=utf8', 'root', '');
+      $reqCheckRetrievePwdCode = $infoDeCo->prepare('SELECT code_recup_mdp_membre FROM membres WHERE login_membre = :login');
+      $reqCheckRetrievePwdCode->execute(array(
+        'login' => $userLogin
+      ));
+      $donnees = $reqCheckRetrievePwdCode->fetch();
+      if($retrievePwdCodeToCheck == $donnees['code_recup_mdp_membre']) {
+        $truthChecker = true;
+        return $truthChecker;
+      } else {
+        $truthChecker = false;
+        return $truthChecker;
+      }
+      return $truthChecker;
+      $reqCheckRetrievePwdCode->closeCursor();
     }
 
     public function listAll($whatShouldIListToday) {
