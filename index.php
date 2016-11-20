@@ -64,7 +64,7 @@
 
             // génère un âge aléatoire
             function randomAge() {
-                $ageRandom = rand(1,85);
+                $ageRandom = rand(1,123);
                 return $ageRandom;
             }
 
@@ -85,18 +85,6 @@
               return $S;
             }
 
-            // présente ce qu'il y a dans un array, non utilisée finalement
-            /*function whatIsInMyArray($arrToInspect, $xInBag) {
-              $howBig = count($arrToInspect) - 1;
-              $jeParle = "J'ai les " . $xInBag . " que voici : ";
-              for($i = 0; $i < $howBig; $i ++) {
-                $jeParle+= $arrToInspect[$i];
-              }
-              return $jeParle;
-            }
-*/
-
-
 
             if(isset($_POST['genType'])) {
                 $selectVal = $_POST['genType'];
@@ -109,10 +97,7 @@
                                   <label class='col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center'>formulaire de génération de personnage</label>
 								  <label class='col-lg-4 col-md-4 col-sm-12 col-xs-12'>Genre</label>
                                   <select name='persoGenre' class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
-                                      <option value='masculin' selected>je suis de genre masculin</option>
-                                      <option value='féminin'>je suis de genre féminin</option>
-                                      <option value='neutre'>je suis de genre neutre</option>
-                                      <option value='genre fluide'>je suis de genre fluide</option>
+                                "  . $Crolix->selectContentGenerator("genre") . "
                                   </select>
 								  <label class='col-lg-4 col-md-4 col-sm-12 col-xs-12'>Classe du perso</label>
                                   <select name='persoClasse' class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>

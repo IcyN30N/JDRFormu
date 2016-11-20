@@ -31,7 +31,7 @@
       $reqCreateAccount->closeCursor();
     }
 
-    public function createNewCharacter($maker, $nom, $genre, $classe, $age, $element, $objets) {
+      public function createNewCharacter($maker, $nom, $genre, $classe, $age, $element, $objets) {
       // on prépare la requête (création d'un nouveau personnage)
       $infoDeCo = new PDO('mysql:host=localhost;dbname=jdrformu;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
       $reqCreatePerso = $infoDeCo->prepare('INSERT INTO personnages(id_crea, nom_perso, genre_perso, classe_perso, age_perso, element_perso, objets_perso) VALUES( :maker, :nom_p, :genre_p, :classe_p, :age_p, :element_p, :objets_p)');
@@ -63,17 +63,19 @@
       $reqCreateCity->closeCursor();
     }
 
-    public function createNewEvent($type, $evenement) {
+    public function createNewEvent($maker, $type, $evenement) {
       // on prépare la requête (création d'un nouvel évènement)
       $infoDeCo = new PDO('mysql:host=localhost;dbname=jdrformu;charset=utf8', 'root', '');
-      $reqCreateEvent = $infoDeCo->prepare('INSERT INTO evenements(type, evenement) VALUES(:type, :evenement)');
+      $reqCreateEvent = $infoDeCo->prepare('INSERT INTO evenements(id_crea, type_event, event) VALUES(:maker, :type, :evenement)');
       // on passe un tableau contenant les infos submitted par l'user pour pouvoir exécuter la requête
       $reqCreateEvent->execute(array(
+        'maker' => $maker,
         'type' => $type,
         'evenement' => $evenement
       ));
       $reqCreateEvent->closeCursor();
     }
+
 
 
     // ---- Méthodes de Modification ---- //
@@ -211,6 +213,18 @@
       }
     }
 
+    public function createItemList(){
+      $infoDeCo = new PDO('mysql:host=localhost;dbname=jdrformu;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+      $numberofItemsInTheBag = rand(0,10);
+      $itemListContainer = [];
+      for($i = 0; $i < $numberofItemsInTheBag; $i++) {
+        $reqRandItem = $infoDeCo->query("SELECT objet FROM objets ORDER BY RAND() LIMIT 0, $numberofItemsInTheBag");
+        $randItem = $reqRandItem->fetch();
+        array_push($itemListContainer,$randItem[0]);
+      }
+      return $itemListContainer;
+    }
+
     public function selectContentGenerator($contentToGenerate) {
       $infoDeCo = new PDO('mysql:host=localhost;dbname=jdrformu;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
       switch ($contentToGenerate) {
@@ -233,6 +247,16 @@
           $req->closeCursor();
           return $options;
             break;
+
+            case 'genre':
+              $req = $infoDeCo->query('SELECT * FROM genres ORDER BY id_genre');
+              $options = "";
+              while($donnees = $req->fetch()) {
+                $options .= "<option value=" . $donnees['id_genre'] . ">" . $donnees['genre'] . "</option>";
+              }
+              $req->closeCursor();
+              return $options;
+                break;
 
         case 'taille':
           $req = $infoDeCo->query('SELECT * FROM tailles ORDER BY id_taille');
@@ -273,6 +297,55 @@
           $req->closeCursor();
           return $options;
             break;
+      }
+    }
+
+    public function autoGenerate($contentToGenerate) {
+      $infoDeCo = new PDO('mysql:host=localhost;dbname=jdrformu;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+      switch ($contentToGenerate) {
+        case 'personnage':
+          $characterCharacteristicsContainer = [];
+          $randCharName = $this->mashUpTwoThingsTogether("nom");
+          $characterCharacteristicsContainer[0] = $randCharName;
+          $reqRandCharGender = $infoDeCo->query('SELECT * FROM genres ORDER BY RAND() LIMIT 0, 1');
+          $randCharGender = $reqRandCharGender->fetch();
+          $characterCharacteristicsContainer[1] = $randCharGender;
+          $reqRandCharClass = $infoDeCo->query('SELECT * FROM classes ORDER BY RAND() LIMIT 0, 1');
+          $randCharClass = $reqRandCharClass->fetch();
+          $characterCharacteristicsContainer[2] = $randCharClass;
+          $randCharAge = rand(1,123);
+          $characterCharacteristicsContainer[3] = $randCharAge;
+          $reqRandCharElement = $infoDeCo->query('SELECT * FROM elements ORDER BY RAND() LIMIT 0, 1');
+          $randCharElement = $reqRandCharElement->fetch();
+          $characterCharacteristicsContainer[4] = $randCharElement;
+          $randCharItems = $this->createItemList();
+          $characterCharacteristicsContainer[5] = $randCharItems;
+          return $characterCharacteristicsContainer;
+          break;
+
+        case 'ville':
+        $cityCharacteristicsContainer = [];
+        $randCityName = $this->mashUpTwoThingsTogether("nom");
+        $cityCharacteristicsContainer[0] = $randCityName;
+        $reqRandCitySize= $infoDeCo->query('SELECT * FROM tailles ORDER BY RAND() LIMIT 0, 1');
+        $randCitySize = $reqRandCitySize->fetch();
+        $cityCharacteristicsContainer[1] = $randCitySize;
+        $reqRandCitySurroundings = $infoDeCo->query('SELECT * FROM environnements ORDER BY RAND() LIMIT 0, 1');
+        $randCitySurroundings = $reqRandCitySurroundings->fetch();
+        $cityCharacteristicsContainer[2] = $randCitySurroundings;
+        $reqRandCityLure= $infoDeCo->query('SELECT * FROM attraits ORDER BY RAND() LIMIT 0, 1');
+        $randCityLure = $reqRandCityLure->fetch();
+        $cityCharacteristicsContainer[3] = $randCityLure;
+        return $cityCharacteristicsContainer;
+          break;
+
+        case 'évènement':
+          $randEvent = $this->mashUpTwoThingsTogether("evenement");
+          return $randEvent;
+          break;
+        default:
+          # code...
+          break;
       }
     }
 
