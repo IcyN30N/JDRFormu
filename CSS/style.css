@@ -1,0 +1,89 @@
+body {
+  background-color: #2c3e50;
+  color: #ecf0f1;
+  font-size: 1.8rem; }
+
+h1 {
+  font-size: 3.2rem;
+  margin-bottom: 3%;
+  color: #2c3e50; }
+
+h2 {
+  font-size: 2.8rem; }
+
+h3 {
+  font-size: 2.3rem; }
+
+p {
+  padding-top: 1.75%; }
+
+.city-card {
+  margin: 2% 5% 3% 5%;
+  border: 1px solid black; }
+  .city-card h2 {
+    border-bottom: 3px solid #2ecc71;
+    padding-bottom: 1%; }
+
+.login-component {
+  margin: 10.5% 10% 0% 10%;
+  padding-bottom: 3%;
+  background-color: #ecf0f1;
+  color: #2c3e50; }
+  .login-component button {
+    color: #ecf0f1; }
+
+.generate-component {
+  margin: 10.5% 10% 10% 10%;
+  padding-bottom: 1%;
+  background-color: #ecf0f1;
+  color: #2c3e50; }
+  .generate-component label {
+    padding-left: 0.35%; }
+  .generate-component button {
+    color: #ecf0f1; }
+
+nav {
+  margin-top: 1.5%;
+  padding-bottom: 2%;
+  font-size: 2rem; }
+
+.navigation {
+  background-color: #2ecc71; }
+
+a:link {
+  color: #ecf0f1;
+  text-decoration: none; }
+
+a:visited {
+  color: #ecf0f1;
+  text-decoration: none; }
+
+a:hover {
+  color: #2c3e50;
+  text-decoration: none; }
+
+button {
+  background-color: #2ecc71;
+  margin-top: 2%; }
+
+input {
+  color: #2c3e50;
+  margin-bottom: 2.5%; }
+
+select {
+  color: #2c3e50; }
+
+.login-form {
+  padding: 0% 25% 1% 25%; }
+  .login-form label {
+    color: #2c3e50;
+    padding-left: 0.35%; }
+
+.generate-form label {
+  margin-top: 1.25%; }
+.generate-form select {
+  margin: 1.25% 6% 1.5% 0%; }
+.generate-form button {
+  margin: 0% 0% 3% 0%; }
+
+/*# sourceMappingURL=style.css.map */

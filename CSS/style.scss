@@ -1,0 +1,147 @@
+// DARK THEME
+$dark-primary-accent: #2ecc71;
+$darkBackground: #2c3e50;
+$darkText: #ecf0f1;
+
+// LIGHT THEME
+$light-primary-accent: #2ecc71;
+$lightBackground: #ecf0f1;
+$lightText: #2c3e50;
+
+
+    body {
+        background-color: $darkBackground;
+        color: $darkText;
+        font-size: 1.8rem;
+    
+    }
+
+    h1{
+        font-size: 3.2rem;
+        margin-bottom: 3%;
+        color: $lightText;
+    }
+    
+    h2 {
+        font-size: 2.8rem;
+    }
+    
+    h3 {
+        font-size: 2.3rem;
+    }
+    
+
+    p {
+        padding-top :1.75%;
+    }
+
+    .city-card {
+        margin: 2% 5% 3% 5%;
+        border: 1px solid black ;
+        h2 {
+            border-bottom: 3px solid $dark-primary-accent;
+            padding-bottom: 1%;
+        }
+    }
+
+    .login-component {
+        margin:10.5% 10% 0% 10%;
+        padding-bottom: 3%;
+        background-color:$lightBackground;
+        color: $lightText;
+        
+        button {
+            color:$darkText;
+        }
+    }
+
+    .generate-component {
+        margin: 10.5% 10% 10% 10%;
+        padding-bottom: 1%;
+        background-color: $darkText;
+        color: $lightText;
+
+        
+        label {
+            padding-left:0.35%;
+        }
+        
+        
+        button {
+            color:$darkText;
+        }
+        
+}
+
+    
+    // NAV //
+    
+    nav {
+        margin-top: 1.5%;
+        padding-bottom: 2%;
+        font-size:2rem;
+    }
+
+    .navigation {
+        background-color: $dark-primary-accent;
+    }
+    
+    // LINKS //
+
+    a:link {
+        color: $darkText;
+        text-decoration: none;
+    }
+    
+    a:visited {
+        color: $darkText;
+        text-decoration: none;
+    }
+
+    a:hover {
+        color: $lightText;
+        text-decoration: none;
+    }
+    
+    
+    
+    // FORMS //
+
+    button {
+        background-color: $dark-primary-accent;
+        margin-top: 2%;
+    }
+
+    input {
+        color: $lightText;
+        margin-bottom: 2.5%;
+    }
+
+    select {
+        color:$lightText;
+    }
+
+    .login-form {
+        padding: 0% 25% 1% 25%;
+        
+        label {
+            color: $lightText;
+            padding-left: 0.35%;
+        }
+        
+    }
+
+    .generate-form {
+        
+        label {
+            margin-top: 1.25%;
+        }
+        select {
+            margin: 1.25% 6% 1.5% 0%;
+        }
+        button {
+            margin: 0% 0% 3% 0%;
+        }
+    }
+
+    
