@@ -16,45 +16,47 @@
 </head>
 
 <body>
-    <section class="container-fluid">
-        <div class="row">
+  <section class=" navigation container-fluid">
+    <?php
+    include('header.php');
+    ?>
+  </section>
+  <section class="container">
+    <div class="row login-component">
+      <h1 class="col-lg-12 text-center">Connexion</h1>
+      <form class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-left login-form" action="" method="post">
+          <label class="col-lg-12 col-md-12 col-sm-12 col-xs-12">Login</label>
+          <input class="col-lg-12 col-md-12 col-sm-12 col-xs-12" type="text" placeholder="login" name="login">
+          <label class="col-lg-12 col-md-12 col-sm-12 col-xs-12">Mot de passe</label>
+          <input class="col-lg-12 col-md-12 col-sm-12 col-xs-12" type="text" placeholder="password" name="pass">
+          <div class="col-lg-4"></div>
+          <button class="col-lg-4 btn btn-lg" type="submit" name="loginForm">Se connecter</button>
+          <div class="col-lg-4"></div>
+      </form>
+
         <?php
-            if(isset($_POST['loginForm'])) {
+          if(isset($_POST['loginForm'])) {
+            // 2 variables qui récupèrent ce qui a été saisi
+            $userLogin = htmlspecialchars($_POST['login']);
+            $userPass = htmlspecialchars($_POST['pass']);
 
-                // 2 variables qui récupèrent ce qui a été saisi
-                $userLogin = htmlspecialchars($_POST['login']);
-                $userPass = htmlspecialchars($_POST['pass']);
+            $Anju = new Database;
+            $Anju->loginCheck($userLogin);
 
-                $Anju = new Database;
-                $Anju->loginCheck($userLogin);
+            $userPassRef = $_POST['refPass'];
 
-                $userPassRef = $_POST['refPass'];
-
-                if(password_verify($userPass, $userPassRef)) {
-                  // 2 variables de session sont créées et récupèrent ce qui a été saisi dans le champ
-                  $_SESSION['login'] = $userLogin;
-
-                    echo '<p class="col-lg-4 col-md-4 col-sm-12 col-xs-12 text-center"> ' . $_SESSION['login'] . ' est connecté(e)</p>';
-                } else {
-                  echo "<p class='col-lg-4 col-md-4 col-sm-12 col-xs-12 text-center'> Votre login ou votre mot de passe n'est pas valide !</p>";
-                }
+            if(password_verify($userPass, $userPassRef)) {
+              // 2 variables de session sont créées et récupèrent ce qui a été saisi dans le champ
+              $_SESSION['login'] = $userLogin;
+            } else {
+              ?>
+              <p class='col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center'> Votre login / mot de passe est invalide !</p>
+              <?php
             }
-
-            if(isset($_SESSION['login'])) {
-              echo '<a class="col-lg-4 col-md-4 col-sm-12 col-xs-12 text-center" href="logout.php"> déconnexion </a>';
-            }
+          }
         ?>
-            <a class="col-lg-4 col-md-4 col-sm-12 col-xs-12 text-center" href="index.php">vers la page d'accueil</a>
-            <h1 class="col-lg-12 text-center">Connectez-vous</h1>
-            <form class="col-lg-12" action="" method="post">
-                <label class="col-lg-4">UserName</label>
-                <input class="col-lg-6" type="text" placeholder="login" name="login">
-                <label class="col-lg-4">PSWD</label>
-                <input class="col-lg-6" type="text" placeholder="password" name="pass">
-                <button class="col-lg-2" type="submit" name="loginForm">Se connecter</button>
-            </form>
-        </div>
-    </section>
+    </div>
+  </section>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
