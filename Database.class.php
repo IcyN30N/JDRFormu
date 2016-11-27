@@ -340,11 +340,17 @@
           break;
 
         case 'évènement':
+          $eventTypeUserChosed = $_POST['eventType'];
+          $reqEventTypeName = $infoDeCo->query("SELECT type FROM types WHERE id_type = $eventTypeUserChosed");
+          $eventTypeName = $reqEventTypeName->fetch();
+          $reqEventTypeName->closeCursor();
+
+          $eventCharacteristicsContainer = [];
+          $eventCharacteristicsContainer[0] = $eventTypeName;
+
           $randEvent = $this->mashUpTwoThingsTogether("evenement");
-          return $randEvent;
-          break;
-        default:
-          # code...
+          $eventCharacteristicsContainer[1] = $randEvent;
+          return $eventCharacteristicsContainer;
           break;
       }
     }
