@@ -21,27 +21,29 @@
 </head>
 
 <body>
-  <section class="container-fluid">
-    <div class="row">
-
-      <form name="UserInfoForm" class="col-lg-12" method="post">
-        <label class="col-lg-6 col-md-6">password</label>
-        <input type="text" name="newPassword" placeholder="monMotDePasse" class="col-lg-6 col-md-6">
-        <label class="col-lg-6">email</label>
-        <input type="email" name="newMail" placeholder="juniper@jdr.com" class="col-lg-6">
-        <label class="col-lg-6">language</label>
-        <select class="col-lg-6" name="newPrefLang">
+  <section class="navigation container-fluid">
+    <?php
+    include('header.php');
+    ?>
+  </section>
+  <section class="container">
+    <div class="row login-component">
+      <h1 class="col-lg-12 text-center">Modifier vos informations</h1>
+      <form class="col-lg-12 col-md-12 col-sm-12 col-xs-12 login-form" name="UserInfoForm" class="col-lg-12" method="post">
+        <label class="col-lg-12 col-md-12 col-sm-12 col-xs-12">password</label>
+        <input class="col-lg-12 col-md-12 col-sm-12 col-xs-12" type="text" name="newPassword" placeholder="MotDePasse">
+        <label class="col-lg-12 col-md-12 col-sm-12 col-xs-12">email</label>
+        <input class="col-lg-12 col-md-12 col-sm-12 col-xs-12" type="email" name="newMail" placeholder="juniper@jdr.com">
+        <label class="col-lg-12 col-md-12 col-sm-12 col-xs-12">language</label>
+        <select class="col-lg-12 col-md-12 col-sm-12 col-xs-12" name="newPrefLang">
           <option value="" selected></option>
           <option value="FR">FR</option>
           <option value="EN">EN</option>
         </select>
-        <button type="submit" name="UserInfoForm">Sauvegarder mes modifications</button>
+        <button class="btn btn-lg col-lg-12 col-md-12 col-sm-12 col-xs-12" type="submit" name="UserInfoForm">Enregistrer</button>
       </form>
 
-
       <?php
-          echo '<p class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-right"> ' . $_SESSION['login'] . ' est connecté(e)</p>';
-
           if(isset($_POST['UserInfoForm']) && $_POST['newPassword'] !== $_SESSION['login']) {
             $Numhiel = new Database;
             $tableToTarget = "membres";
@@ -68,10 +70,10 @@
               $newUserInfos = [$_SESSION['password'], $_SESSION['email'], $newPrefLang];
               $Numhiel->databaseChange($tableToTarget, $newUserInfos);
             }
-            echo "<p class='col-lg-12'>Nous avons bien pris en compte ces changements.</p>";
+            echo "<p class='col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center'>Nous avons bien pris en compte ces changements.</p>";
             unset($_SESSION['password'], $_SESSION['email']);
           } elseif(isset($_POST['UserInfoForm']) && $_POST['newPassword'] == $_SESSION['login']) {
-            echo "<h1>le mot de passe doit être différent du login !!</h1>";
+            echo "<p class='col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center'>le mot de passe doit être différent du login !!</p>";
           }
 
         }
