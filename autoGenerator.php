@@ -16,34 +16,59 @@
 </head>
 
 <body>
-  <div class="container-fluid">
-    <section class="row">
-      <?php
-        if(isset($_SESSION['login'])) {
-          echo '<p class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-right"> ' . $_SESSION['login'] . ' est connecté(e)</p>';
-        } ?>
-
-        <form class="col-lg-12 col-md-12 col-sm-12 col-xs-12" action="autoGenerator.php" method="post">
-            <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2">Je veux générer :</label>
-            <select name="genType" class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+  <section class="container-fluid navigation">
+    <?php
+      include('header.php');
+    ?>
+  </section>
+    <section class="container">
+    <div class="row generate-component">
+      <h1 class="col-lg-12 text-center">Génération Auto</h1>
+        <form class="col-lg-12 col-md-12 col-sm-12 col-xs-12 generate-form" action="autoGenerator.php" method="post">
+            <label class="col-lg-4 col-md-4 col-sm-4 col-xs-12">Je veux générer :</label>
+            <select name="genType" class="col-lg-3 col-md-3 col-sm-3 col-xs-12 offset-lg-1 offset-md-1 offset-sm-1">
                 <option value="personnage" selected>un personnage</option>
                 <option value="ville">une ville</option>
                 <option value="évènement">un évènement</option>
             </select>
-            <button type="submit">Valider</button>
+            <button class="col-lg-4 col-md-4 col-sm-4 col-xs-12 btn btn-lg" type="submit">Générer</button>
         </form>
 
         <?php
         $Miawoo = new Database;
         if(isset($_POST['genType'])) {
           $selectVal = $_POST['genType'];
-          echo "$selectVal";
           switch ($selectVal) {
             case 'personnage':
               $randChar = $Miawoo->autoGenerate("personnage");
-              var_dump($randChar);
-              
-              /* S INSPIRER POUR ENVOYER DES INFOS SUR LE PERSO GEN echo "<h1>Je m'appelle $randCharName, je suis de genre $randCharGender[1]. Je suis $randCharClass[1], j'ai $randCharAge ans et j'ai une attirance pour $randCharElement[1].</h1>"; */
+
+              // Stockage des valeurs randoms du personnage utilisées pour l'affichage
+              $displayCharName = $randChar[0];
+              $displayCharGender = $randChar[1][1];
+              $displayCharClass = $randChar[2][1];
+              $displayCharAge = $randChar[3];
+              $displayCharElement = $randChar[4][1];
+              $displayCharItems = "- ";
+
+              // boucle afin de remplir la variable randCharObjets pour avoir une liste d'objets.
+              if(!empty($randChar[5])) {
+                $itemsArrayUsefulSize = count($randChar[5]);
+                for($i = 0; $i < $itemsArrayUsefulSize; $i++) {
+                  $itemToAdd = $randChar[5][$i];
+                  $displayCharItems .= "" . $itemToAdd . " -";
+                }
+              }
+              ?>
+              <p class="text-center">Voici un personnage aléatoire:</p>
+              <div class="row city-card text-center">
+                <h2 class="col-lg-12"> <?php echo "$displayCharName" ?> </h2>
+                <p class="col-lg-3 col-md-12 col-sm-12 col-xs-12 text-center"> <?php echo "$displayCharGender" ?> </p>
+                <p class="col-lg-3 col-md-12 col-sm-12 col-xs-12 text-center"> <?php echo "$displayCharClass" ?> </p>
+                <p class="col-lg-3 col-md-12 col-sm-12 col-xs-12 text-center"> <?php echo "$displayCharAge ans" ?> </p>
+                <p class="col-lg-3 col-md-12 col-sm-12 col-xs-12 text-center"> <?php echo "$displayCharElement" ?> </p>
+                <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center"> <?php echo "$displayCharItems" ?> </p>
+              </div>
+              <?php
 
               if(isset($_SESSION['login'])) {
                 $_SESSION['userIsCreating'] = "personnage";
@@ -72,13 +97,13 @@
                 $_SESSION['persoObjets'] = $randCharObjets;
                 ?>
 
-                <form class="col-lg-12 col-md-12 col-sm-12 col-xs-12" action="autoGenerator.php" method="post">
-                  <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2">sauvegarder ce personnage ? :</label>
-                  <select name="saveToDB" class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <form class="col-lg-12 col-md-12 col-sm-12 col-xs-12 generate-form" action="autoGenerator.php" method="post">
+                  <label class="col-lg-4 col-md-4 col-sm-4 col-xs-12">sauvegarder ce personnage ? :</label>
+                  <select name="saveToDB" class="col-lg-3 col-md-3 col-sm-3 col-xs-12 offset-lg-1 offset-md-1 offset-sm-1">
                     <option value="oui" selected>oui</option>
                     <option value="non">non</option>
                   </select>
-                  <button type="submit">Valider</button>
+                  <button class="col-lg-4 col-md-4 col-sm-4 col-xs-12 btn btn-lg" type="submit">Valider</button>
                 </form>
 
                 <?php
@@ -87,10 +112,20 @@
 
             case 'ville':
               $randCity = $Miawoo->autoGenerate("ville");
-              var_dump($randCity);
-
-              /* S INSPIRER POUR ENVOYER DES INFOS SUR LA VILLE GEN  echo "<h1>Bienvenue à $randCityName. Je suis $randCitySize[1] et j'ai pour environnement  $randCitySurroundings[1] et mon attrait est $randCityLure[1]</h1>"; */
-
+              // Stockage des valeurs randoms de la ville utilisées pour l'affichage
+              $displayCityName = $randCity[0];
+              $displayCitySize = $randCity[1][1];
+              $displayCitySurroundings = $randCity[2][1];
+              $displayCityLure = $randCity[3][1];
+              ?>
+              <p class="text-center">Voici une ville aléatoire:</p>
+              <div class="row city-card text-center">
+                <h2 class="col-lg-12"> <?php echo "$displayCityName" ?> </h2>
+                <p class="col-lg-4 "> <?php echo "$displayCitySize" ?> </p>
+                <p class="col-lg-4 "> <?php echo "$displayCitySurroundings" ?> </p>
+                <p class="col-lg-4 "> <?php echo "$displayCityLure" ?> </p>
+              </div>
+              <?php
               if(isset($_SESSION['login'])) {
                 $_SESSION['userIsCreating'] = "ville";
 
@@ -107,13 +142,13 @@
                 $_SESSION['villeAtout'] = $randCityLure;
                 ?>
 
-                <form class="col-lg-12 col-md-12 col-sm-12 col-xs-12" action="autoGenerator.php" method="post">
-                  <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2">sauvegarder cette ville ? :</label>
-                  <select name="saveToDB" class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <form class="col-lg-12 col-md-12 col-sm-12 col-xs-12 generate-form" action="autoGenerator.php" method="post">
+                  <label class="col-lg-4 col-md-4 col-sm-4 col-xs-12">sauvegarder cette ville ? :</label>
+                  <select name="saveToDB" class="col-lg-3 col-md-3 col-sm-3 col-xs-12 offset-lg-1 offset-md-1 offset-sm-1">
                     <option value="oui" selected>oui</option>
                     <option value="non">non</option>
                   </select>
-                  <button type="submit">Valider</button>
+                  <button class="col-lg-4 col-md-4 col-sm-4 col-xs-12 btn btn-lg" type="submit">Valider</button>
                 </form>
 
                 <?php
@@ -122,14 +157,14 @@
 
             case 'évènement':
               ?>
-              <form name='genEvent' method='post' action='autoGenerator.php'>
-                <label class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>Type d'évènement</label>
+              <form class='col-lg-12 col-md-12 col-sm-12 col-xs-12 generate-form' name='genEvent' method='post' action='autoGenerator.php'>
+                <label class='col-lg-4 col-md-4 col-sm-4 col-xs-12'>Type d'évènement</label>
                 <?php
-                echo " <select name='eventType' class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
+                echo " <select name='eventType' class='col-lg-3 col-md-3 col-sm-3 col-xs-12 offset-lg-1 offset-md-1 offset-sm-1'>
                    "  . $Miawoo->selectContentGenerator("type") . " ?>
                 </select> "
                 ?>
-                <button type='submit' name='genEvent' >Valider</button>
+                <button class="col-lg-4 col-md-4 col-sm-4 col-xs-12 btn btn-lg" type='submit' name='genEvent' >Valider</button>
               </form>
               <?php
               break;
@@ -138,7 +173,15 @@
 
         if(isset($_POST['genEvent'])) {
           $randEvent = $Miawoo->autoGenerate("évènement");
-          echo "$randEvent";
+          $displayEventType = ucfirst($randEvent[0][0]);
+          $displayEvent = $randEvent[1];
+          ?>
+          <p class="text-center">Voici un évènement aléatoire:</p>
+          <div class="row city-card text-center">
+            <h2 class="col-lg-12"> <?php echo "$displayEventType" ?> </h2>
+            <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center"> <?php echo "$displayEvent" ?> </p>
+          </div>
+          <?php
         }
 
         if(isset($_SESSION['login'])) {
@@ -149,13 +192,13 @@
             $_SESSION['userIsCreating'] = "évènement";
             ?>
 
-            <form class="col-lg-12 col-md-12 col-sm-12 col-xs-12" action="autoGenerator.php" method="post">
-              <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2">sauvegarder cet évènement ? :</label>
-              <select name="saveToDB" class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <form class="col-lg-12 col-md-12 col-sm-12 col-xs-12 generate-form" action="autoGenerator.php" method="post">
+              <label class="col-lg-4 col-md-4 col-sm-4 col-xs-12">sauvegarder cet évènement ? :</label>
+              <select name="saveToDB" class="col-lg-3 col-md-3 col-sm-3 col-xs-12 offset-lg-1 offset-md-1 offset-sm-1">
                 <option value="oui" selected>oui</option>
                 <option value="non">non</option>
               </select>
-              <button type="submit">Valider</button>
+              <button class="col-lg-4 col-md-4 col-sm-4 col-xs-12 btn btn-lg" type="submit">Valider</button>
             </form>
           <?php
           }
@@ -170,32 +213,44 @@
               case 'personnage':
                 if($userChoice == "oui") {
                   $Miawoo->createNewCharacter($_SESSION['id'], $_SESSION['persoNom'], $_SESSION['persoGenre'], $_SESSION['persoClasse'], $_SESSION['persoAge'], $_SESSION['persoElement'], $_SESSION['persoObjets']);
-                    echo "Le personnage a bien été sauvegardé.";
+                  ?>
+                     <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">Le personnage a bien été sauvegardé.</p>
+                  <?php
                 } else {
-                    echo "Le personnage n'a pas été sauvegardé.";
+                  ?>
+                    <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">Le personnage n'a pas été sauvegardé.</p>
+                  <?php
                 }
                 break;
 
               case 'ville' :
                 if($userChoice == "oui") {
                   $Miawoo->createNewCity($_SESSION['id'], $_SESSION['villeNom'], $_SESSION['villeTaille'], $_SESSION['villeEnv'], $_SESSION['villeAtout']);
-                  echo "La ville a bien été sauvegardée.";
+                  ?>
+                    <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">La ville a bien été sauvegardée.</p>
+                  <?php
                 } else {
-                  echo "La ville n'a pas été sauvegardée.";
+                  ?>
+                    <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">La ville n'a pas été sauvegardée.</p>
+                  <?php
                 }
                 break;
 
               case 'évènement' :
                 if($userChoice == "oui") {
                   $Miawoo->createNewEvent($_SESSION['id'], $_SESSION['eventType'], $_SESSION['event']);
-                  echo "L'évènement a bien été sauvegardé.";
+                  ?>
+                    <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">L'évènement a bien été sauvegardé.</p>
+                  <?php
                 } else {
-                  echo "L'évènement n'a pas été sauvegardé.";
+                  ?>
+                    <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">L'évènement n'a pas été sauvegardé.</p>
+                  <?php
                 }
                 break;
             }
           }
           }
           ?>
-    </section>
-  </div>
+    </div>
+  </section>
