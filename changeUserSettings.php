@@ -2,7 +2,7 @@
   session_start();
   require_once("Database.class.php");
   if( ! (isset($_SESSION['login']) ) ) {
-    header('Location: error401.html');
+    header('Location: error401.php');
   } else {
 
 
