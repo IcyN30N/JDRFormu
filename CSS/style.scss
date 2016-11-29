@@ -73,7 +73,7 @@ $lightText: #2c3e50;
         
 }
 
-    
+
     // NAV //
     
     nav {
@@ -103,7 +103,25 @@ $lightText: #2c3e50;
         text-decoration: none;
     }
     
+    // Lien de récup du mot de passe //
+    #lostpass {
+        color:$lightText;
+        
+        a:link {
+            color: $lightText;
+            text-decoration: none;
+        }
     
+        a:visited {
+            color: $lightText;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: $dark-primary-accent;
+            text-decoration: none;
+        }
+    }
     
     // FORMS //
 

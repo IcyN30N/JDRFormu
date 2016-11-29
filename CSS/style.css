@@ -62,6 +62,18 @@ a:hover {
   color: #2c3e50;
   text-decoration: none; }
 
+#lostpass {
+  color: #2c3e50; }
+  #lostpass a:link {
+    color: #2c3e50;
+    text-decoration: none; }
+  #lostpass a:visited {
+    color: #2c3e50;
+    text-decoration: none; }
+  #lostpass a:hover {
+    color: #2ecc71;
+    text-decoration: none; }
+
 button {
   background-color: #2ecc71;
   margin-top: 2%; }
