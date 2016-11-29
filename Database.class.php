@@ -408,25 +408,61 @@
       $infoDeCo = new PDO('mysql:host=localhost;dbname=jdrformu;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
       switch ($whatShouldIListToday) {
         case 'personnages':
-          $req = $infoDeCo->query('SELECT * FROM personnages');
+          $req = $infoDeCo->query('SELECT * FROM personnages INNER JOIN genres ON personnages.genre_perso = genres.id_genre INNER JOIN classes ON personnages.classe_perso = classes.id_classe INNER JOIN elements ON personnages.element_perso = elements.id_element');
           while($donnees = $req->fetch()) {
-          echo "<h1>Je m'appelle ". $donnees['nom_perso'] . "</h1><br>";
+          // on assigne les données personnage récupérées à des variables pour les afficher
+          $displayCharName = $donnees['nom_perso'];
+          $displayCharGender = $donnees['genre'];
+          $displayCharClass = $donnees['classe'];
+          $displayCharAge = $donnees['age_perso'];
+          $displayCharElement = $donnees['element'];
+          $displayCharItems = $donnees['objets_perso'];
+          ?>
+            <div class="row city-card text-center">
+              <h2 class="col-lg-12"> <?php echo "$displayCharName" ?> </h2>
+              <p class="col-lg-3 col-md-12 col-sm-12 col-xs-12 text-center"> <?php echo "$displayCharGender" ?> </p>
+              <p class="col-lg-3 col-md-12 col-sm-12 col-xs-12 text-center"> <?php echo "$displayCharClass" ?> </p>
+              <p class="col-lg-3 col-md-12 col-sm-12 col-xs-12 text-center"> <?php echo "$displayCharAge ans" ?> </p>
+              <p class="col-lg-3 col-md-12 col-sm-12 col-xs-12 text-center"> <?php echo "$displayCharElement" ?> </p>
+              <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center"> <?php echo "$displayCharItems" ?> </p>
+            </div>
+          <?php
           }
           $req->closeCursor();
           break;
 
         case 'villes':
-          $req = $infoDeCo->query('SELECT * FROM villes');
+          $req = $infoDeCo->query('SELECT * FROM villes INNER JOIN tailles ON villes.taille_ville = tailles.id_taille INNER JOIN environnements ON villes.environnement_ville = environnements.id_environnement INNER JOIN attraits ON villes.attrait_ville = attraits.id_attrait');
           while($donnees = $req->fetch()) {
-            echo "<h1> Voici la ville de ". $donnees['nom_ville'] . "</h1><br>";
+            // on assigne les données de ville récupérées à des variables pour les afficher
+            $displayCityName = $donnees['nom_ville'];
+            $displayCitySize = $donnees['taille'];
+            $displayCitySurroundings = $donnees['environnement'];
+            $displayCityLure = $donnees['attrait'];
+            ?>
+              <div class="row city-card text-center">
+                <h2 class="col-lg-12"> <?php echo "$displayCityName" ?> </h2>
+                <p class="col-lg-4 "> <?php echo "$displayCitySize" ?> </p>
+                <p class="col-lg-4 "> <?php echo "$displayCitySurroundings" ?> </p>
+                <p class="col-lg-4 "> <?php echo "$displayCityLure" ?> </p>
+              </div>
+            <?php
           }
           $req->closeCursor();
           break;
 
         case 'evenements':
-          $req = $infoDeCo->query('SELECT * FROM evenements');
+          $req = $infoDeCo->query('SELECT * FROM evenements INNER JOIN types ON evenements.type_event = types.id_type');
           while($donnees = $req->fetch()) {
-            echo "<h1>". $donnees['event'] . "</h1><br>";
+            // on assigne les données d'évènement ville récupérées à des variables pour les afficher
+            $displayEventType = $donnees['type'];
+            $displayEvent = $donnees['event'];
+            ?>
+              <div class="row city-card text-center">
+                <h2 class="col-lg-12"> <?php echo "$displayEventType" ?> </h2>
+                <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center"> <?php echo "$displayEvent" ?> </p>
+              </div>
+            <?php
           }
           $req->closeCursor();
           break;
