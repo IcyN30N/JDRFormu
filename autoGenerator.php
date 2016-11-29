@@ -188,7 +188,7 @@
           if(isset($_POST['genEvent'])) {
             // stockage en session des données de l'event en cas de sauvegarde
             $_SESSION['eventType'] = $_POST['eventType'];
-            $_SESSION['event'] = $randEvent;
+            $_SESSION['event'] = $randEvent[1];
             $_SESSION['userIsCreating'] = "évènement";
             ?>
 

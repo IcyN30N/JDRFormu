@@ -1,6 +1,9 @@
 <?php
 session_start();
 require_once("Database.class.php");
+if( ! (isset($_SESSION['login']) ) ) {
+  header('Location: error401.php');
+} else {
 ?>
 
 <!doctype html>
@@ -16,30 +19,38 @@ require_once("Database.class.php");
 </head>
 
 <body>
-  <section class="container-fluid">
-    <div class="row">
-      <h1 class="col-lg-12 text-center">LISTE : </h1>
+  <section class="container-fluid navigation">
+    <?php
+      include('header.php');
+    ?>
+  </section>
+  <section class="container">
+    <div class="row generate-component">
+      <h1 class="col-lg-12 text-center">Liste</h1>
 <?php
   if(isset($_SESSION['login'])) {
-    echo ('
-    <form class="col-lg-12" method="post">
-      <label class="col-lg-4">Quelle liste voulez vous afficher ?</label>
-      <select class="col-lg-4" name="choixAAfficher">
+    ?>
+    <form class="col-lg-12 col-md-12 col-sm-12 col-xs-12 generate-form" method="post">
+      <label class="col-lg-4 col-md-4 col-sm-4 col-xs-12">Quel type d'éléments voulez vous afficher ?</label>
+      <select class="col-lg-3 col-md-3 col-sm-3 col-xs-12 offset-lg-1 offset-md-1 offset-sm-1" name="choixAAfficher">
             <option value="personnages" selected>Personnages</option>
             <option value="villes">Villes</option>
             <option value="evenements">Evènements</option>
         </select>
-        <button type="submit" name="listeAAfficher">Affiche</button>
+        <button class="col-lg-4 col-md-4 col-sm-4 col-xs-12 btn btn-lg" type="submit" name="listeAAfficher">Lister</button>
     </form>
-    ');
+    <?php
 
     if(isset($_POST['listeAAfficher'])) {
     $ceQueJeDoisAfficher =  $_POST['choixAAfficher'];
+    ?>
+      <p class="text-center">Voici la liste des <?php echo "$ceQueJeDoisAfficher" ?> : </p>
+    <?php
     $Tozor = new Database;
     $Tozor->listAll($ceQueJeDoisAfficher);
     }
   }
-
+}
 ?>
     </div>
   </section>

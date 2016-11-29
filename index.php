@@ -17,13 +17,10 @@
 
 <body>
   <div class="container-fluid">
+    <?php
+      include('header.php');
+     ?>
     <section class="row">
-      <?php
-        if(isset($_SESSION['login'])) {
-          echo '<p class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-right"> ' . $_SESSION['login'] . ' est connecté(e)</p>';
-        }
-       ?>
-      <a class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right" href="login.php">vers la page de co</a>
         <h1 class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">JDR FORMS</h1>
     </section>
     <section class="row">
@@ -35,7 +32,7 @@
                 <option value="ville">une ville</option>
                 <option value="évènement">un évènement</option>
             </select>
-            <button type="submit">Valider</button>
+            <button class="btn btn-lg" type="submit">Valider</button>
         </form>
 
         <?php
@@ -46,7 +43,7 @@
             $tabItemInBag = [" une Potion"," un Sandwich", " une Loupe"," un Ordinateur"," un Appareil Photo"," un Téléphone"];
 
             $tabLifeEvent = ["La mine ","Le village voisin ","Tout le centre ville ","Le palais ","La cache secrète ","Un temple perdu dans les montagnes "];
-            $tabLifeEvent2 = ["a pris feu","a subi les ravages d'une innondation","a vu sa rénovation terminée","a mystérieusement disparu","a vu tous ses occupants se changer en pierre","a été le théâtre d'un évènement fâcheux : un enlèvement."];
+            $tabLifeEvent2 = ["a pris feu.","a subi les ravages d'une innondation.","a vu sa rénovation terminée.","a mystérieusement disparu","a vu tous ses occupants se changer en pierre","a été le théâtre d'un évènement fâcheux : un enlèvement."];
             $tabActionEvent = ["Soudain, un sorcier apparait et ","Une voleuse bondit en dehors d'un fourré et ","Avec rage, une guerrière à l'allure impressionnante ", "Un-e mort-e vivant-e "];
             $tabActionEvent2 = ["vous regarde furieusement.","jette une boule de feu.","saute sur le groupe.","sort une dague de sous sa cape.","semble psalmodier dans une langue inconnue.","hurle à tue tête que la fin du monde approche."];
             $tabTravelEvent = ["Des arbres bloquent ","Plusieurs bouts de métals acérés jonchent ","Une coulée de lave a détruit "];
@@ -107,7 +104,7 @@
                                   <select name='persoElement' class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
                                     "  . $Crolix->selectContentGenerator("element") . "
                                   </select>
-                              	<button type='submit' name='genPerso' >Valider</button>
+                              	<button class='btn btn-lg' type='submit' name='genPerso' >Valider</button>
 							  </form>
                               ");
                           break;
@@ -127,7 +124,7 @@
                                 <select name='villeAtout' class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
                                   "  . $Crolix->selectContentGenerator("atout") . "
                                 </select>
-                                  <button type='submit' name='genVille'>Valider</button>
+                                  <button class='btn btn-lg' type='submit' name='genVille'>Valider</button>
                               </form>
                               ");
                           break;
@@ -139,7 +136,7 @@
                                   <select name='eventType' class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
                                     "  . $Crolix->selectContentGenerator("type") . "
                                   </select>
-                                  <button type='submit' name='genEvent' >Valider</button>
+                                  <button class='btn btn-lg' type='submit' name='genEvent' >Valider</button>
                               </form>
                               ");
                           break;
@@ -176,7 +173,7 @@
                                     <option value='oui'>Oui</option>
                                     <option value='non'>Non</option>
                                   </select>
-                                  <button type='submit' name='savePerso' >Valider</button>
+                                  <button class='btn btn-lg' type='submit' name='savePerso' >Valider</button>
                                 </form>"
                               );
 
@@ -205,7 +202,7 @@
                                       <option value='oui'>Oui</option>
                                       <option value='non'>Non</option>
                                     </select>
-                                    <button type='submit' name='saveVille' >Valider</button>
+                                    <button class='btn btn-lg' type='submit' name='saveVille' >Valider</button>
                                   </form>"
                                  );
 
