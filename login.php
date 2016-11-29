@@ -33,6 +33,7 @@
           <button class="col-lg-4 btn btn-lg" type="submit" name="loginForm">Se connecter</button>
           <div class="col-lg-4"></div>
       </form>
+      <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center" id="lostpass" ><a href="retrievePass.php">J'ai perdu mon mot de passe</a></p>
 
         <?php
           if(isset($_POST['loginForm'])) {
