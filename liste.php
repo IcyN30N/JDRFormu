@@ -19,7 +19,7 @@ if( ! (isset($_SESSION['login']) ) ) {
 </head>
 
 <body>
-  <section class="container-fluid navigation">
+  <section class="container-fluid">
     <?php
       include('header.php');
     ?>
@@ -31,7 +31,7 @@ if( ! (isset($_SESSION['login']) ) ) {
   if(isset($_SESSION['login'])) {
     ?>
     <form class="col-lg-12 col-md-12 col-sm-12 col-xs-12 generate-form" method="post">
-      <label class="col-lg-4 col-md-4 col-sm-4 col-xs-12">Quel type d'éléments voulez vous afficher ?</label>
+      <label class="col-lg-4 col-md-4 col-sm-4 col-xs-12">Que voulez vous afficher ?</label>
       <select class="col-lg-3 col-md-3 col-sm-3 col-xs-12 offset-lg-1 offset-md-1 offset-sm-1" name="choixAAfficher">
             <option value="personnages" selected>Personnages</option>
             <option value="villes">Villes</option>
@@ -46,7 +46,7 @@ if( ! (isset($_SESSION['login']) ) ) {
     ?>
       <p class="text-center">Voici la liste des <?php echo "$ceQueJeDoisAfficher" ?> : </p>
     <?php
-    $Tozor = new Database;
+    $Tozor = new Database(new PDO('mysql:host=localhost;dbname=jdrformu;charset=utf8', 'root', ''));
     $Tozor->listAll($ceQueJeDoisAfficher);
     }
   }

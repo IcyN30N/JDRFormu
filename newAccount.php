@@ -16,7 +16,7 @@
 </head>
 
 <body>
-    <section class="container-fluid navigation">
+    <section class="container-fluid">
       <?php
         include('header.php');
       ?>
@@ -61,7 +61,7 @@
           try {
           if($newUserPwd == $newUserPwdConfirm && $newUserLogin !== $newUserPwd) {
             // on crée une nouvelle instance de la classe Database.
-            $Toju = new Database;
+            $Toju = new Database(new PDO('mysql:host=localhost;dbname=jdrformu;charset=utf8', 'root', ''));
             $Toju->createNewMember($newUserLogin, $newUserPwdHashed, $newUserMail, $newUserLang);
 
             // on affiche un message pour signifier le succès de la création de compte à l'utilisateur/ice.

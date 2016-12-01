@@ -14,7 +14,7 @@
 </head>
 
 <body>
-	<section class="container-fluid text-center navigation">
+	<section class="container-fluid text-center">
     <?php
     include('header.php');
     ?>
@@ -49,7 +49,7 @@
         };
 
 
-        $Alinhavre = new Database;
+        $Alinhavre = new Database(new PDO('mysql:host=localhost;dbname=jdrformu;charset=utf8', 'root', ''));
         if(isset($_POST['mailToHelp']) && isset($_POST['pseudoToHelp'])) {
           if($_POST['mailToHelp'] != "" && $_POST['pseudoToHelp'] != "") {
             $pseudo = htmlspecialchars($_POST['pseudoToHelp']);
@@ -135,6 +135,9 @@
     </div>
 	</section>
 
-</body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="JS/jdrscript.js"></script>
 
+</body>
 </html>

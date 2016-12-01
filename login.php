@@ -16,7 +16,7 @@
 </head>
 
 <body>
-  <section class=" navigation container-fluid">
+  <section class="container-fluid">
     <?php
     include('header.php');
     ?>
@@ -41,7 +41,7 @@
             $userLogin = htmlspecialchars($_POST['login']);
             $userPass = htmlspecialchars($_POST['pass']);
 
-            $Anju = new Database;
+            $Anju = new Database(new PDO('mysql:host=localhost;dbname=jdrformu;charset=utf8', 'root', ''));
             $Anju->loginCheck($userLogin);
 
             $userPassRef = $_POST['refPass'];
@@ -49,6 +49,9 @@
             if(password_verify($userPass, $userPassRef)) {
               // 2 variables de session sont créées et récupèrent ce qui a été saisi dans le champ
               $_SESSION['login'] = $userLogin;
+              ?>
+              <p class='col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center'> Connexion réussie !</p>
+              <?php
             } else {
               ?>
               <p class='col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center'> Votre login / mot de passe est invalide !</p>

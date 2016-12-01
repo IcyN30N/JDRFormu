@@ -21,7 +21,7 @@
 </head>
 
 <body>
-  <section class="navigation container-fluid">
+  <section class="container-fluid">
     <?php
     include('header.php');
     ?>
@@ -30,11 +30,11 @@
     <div class="row login-component">
       <h1 class="col-lg-12 text-center">Modifier vos informations</h1>
       <form class="col-lg-12 col-md-12 col-sm-12 col-xs-12 login-form" name="UserInfoForm" class="col-lg-12" method="post">
-        <label class="col-lg-12 col-md-12 col-sm-12 col-xs-12">password</label>
+        <label class="col-lg-12 col-md-12 col-sm-12 col-xs-12">Mot de passe</label>
         <input class="col-lg-12 col-md-12 col-sm-12 col-xs-12" type="text" name="newPassword" placeholder="MotDePasse">
-        <label class="col-lg-12 col-md-12 col-sm-12 col-xs-12">email</label>
+        <label class="col-lg-12 col-md-12 col-sm-12 col-xs-12">Email</label>
         <input class="col-lg-12 col-md-12 col-sm-12 col-xs-12" type="email" name="newMail" placeholder="juniper@jdr.com">
-        <label class="col-lg-12 col-md-12 col-sm-12 col-xs-12">language</label>
+        <label class="col-lg-12 col-md-12 col-sm-12 col-xs-12">Langue</label>
         <select class="col-lg-12 col-md-12 col-sm-12 col-xs-12" name="newPrefLang">
           <option value="" selected></option>
           <option value="FR">FR</option>
@@ -45,7 +45,7 @@
 
       <?php
           if(isset($_POST['UserInfoForm']) && $_POST['newPassword'] !== $_SESSION['login']) {
-            $Numhiel = new Database;
+            $Numhiel = new Database(new PDO('mysql:host=localhost;dbname=jdrformu;charset=utf8', 'root', ''));
             $tableToTarget = "membres";
             //$newUserInfos = [$_SESSION['password'] , $_SESSION['email'] , $_SESSION['langue']];
             $newUserInfos = [];
@@ -83,5 +83,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="JS/jdrscript.js"></script>
+
 </body>
 </html>

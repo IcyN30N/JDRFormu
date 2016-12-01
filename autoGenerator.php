@@ -16,7 +16,7 @@
 </head>
 
 <body>
-  <section class="container-fluid navigation">
+  <section class="container-fluid">
     <?php
       include('header.php');
     ?>
@@ -35,7 +35,7 @@
         </form>
 
         <?php
-        $Miawoo = new Database;
+        $Miawoo = new Database(new PDO('mysql:host=localhost;dbname=jdrformu;charset=utf8', 'root', ''));
         if(isset($_POST['genType'])) {
           $selectVal = $_POST['genType'];
           switch ($selectVal) {
@@ -254,3 +254,10 @@
           ?>
     </div>
   </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="JS/jdrscript.js"></script>
+
+</body>
+</html>

@@ -17,7 +17,7 @@
 
 
 <body>
-  <section class="container-fluid navigation">
+  <section class="container-fluid">
     <?php
       include('header.php');
     ?>
@@ -28,9 +28,10 @@
       <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">Vous avez bien été déconnecté-e.</p>
     </div>
   </section>
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <script src="JS/jdrscript.js"></script>
-    </div>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="JS/jdrscript.js"></script>
+    
 </body>
 </html>
