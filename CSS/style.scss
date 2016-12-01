@@ -1,10 +1,10 @@
 // DARK THEME
-$dark-primary-accent: #2ecc71;
+$dark-primary-accent: #27ae60;
 $darkBackground: #2c3e50;
 $darkText: #ecf0f1;
 
 // LIGHT THEME
-$light-primary-accent: #2ecc71;
+$light-primary-accent: #27ae60;
 $lightBackground: #ecf0f1;
 $lightText: #2c3e50;
 
@@ -17,17 +17,21 @@ $lightText: #2c3e50;
     }
 
     h1{
-        font-size: 3.2rem;
+        font-size: 4.5rem;
         margin-bottom: 3%;
         color: $lightText;
     }
     
     h2 {
-        font-size: 2.8rem;
+        font-size: 3.2rem;
     }
     
     h3 {
-        font-size: 2.3rem;
+        font-size: 2.6rem;
+    }
+
+    h4 {
+        font-size: 2.2rem;
     }
     
 
@@ -45,7 +49,7 @@ $lightText: #2c3e50;
     }
 
     .login-component {
-        margin:10.5% 10% 0% 10%;
+        margin:10.5% 10% 3% 10%;
         padding-bottom: 3%;
         background-color:$lightBackground;
         color: $lightText;
@@ -56,9 +60,9 @@ $lightText: #2c3e50;
     }
 
     .generate-component {
-        margin: 10.5% 10% 10% 10%;
+        margin: 10.5% 10% 3% 10%;
         padding-bottom: 1%;
-        background-color: $darkText;
+        background-color: $lightBackground;
         color: $lightText;
 
         
@@ -77,14 +81,21 @@ $lightText: #2c3e50;
     // NAV //
     
     nav {
-        margin-top: 1.5%;
-        padding-bottom: 2%;
         font-size:2rem;
+        
+        a {
+            color:$darkText;
+            padding: 2% 0.5% 2% 0.5%;
+            background-color: $dark-primary-accent;
+        }
+        
+        a:hover {
+        background-color: #2ecc71;
+            transition: 1.2s;
+        }
     }
 
-    .navigation {
-        background-color: $dark-primary-accent;
-    }
+
     
     // LINKS //
 
@@ -101,6 +112,7 @@ $lightText: #2c3e50;
     a:hover {
         color: $lightText;
         text-decoration: none;
+        transition: 1.5s;
     }
     
     // Lien de récup du mot de passe //
